@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Double Major Planner</title>
+    <link rel="stylesheet" href="./bootstrap-5.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <!-- UWA logo -->
+        <img class="m-md-2" src="./imgs/uwa_logo.png" alt="Logo" width="20%" >
+        
+        <!-- Nav buttons -->
+        <ul class="navbar-nav me-auto mb-md-2 mb-md-0">
+            <li class="nav-item m-md-4">
+                <a class="nav-link custom-capsule text-dark fs-5" href="#link1" id="btn1">Choose course</a>
+            </li>
+            <li class="nav-item m-md-4">
+                <a class="nav-link custom-capsule text-dark fs-5" href="#link2" id="btn2">Choose Majors</a>
+            </li>
+            <li class="nav-item m-md-4">
+                <a class="nav-link custom-capsule text-dark fs-5" href="#link2" id="btn2">Select units</a>
+            </li>
+            <li class="nav-item m-md-4">
+                <a class="nav-link custom-capsule text-dark fs-5" href="#link3" id="btn3">Timetable</a>
+            </li>
+        </ul> 
+        
+        <!-- Login button -->
+        <a href="#login" class="btn btn-transparent text-white m-md-5 fs-4 ml-md-2">
+            <i class="bi bi-person-circle m-md-2"></i>
+            Log in
+        </a>
+    </nav>
+
+    <!-- login page -->
+    <div class="d-flex justify-content-center align-items-center vh-100">
+        <div class="bule-card w-50 h-50 shadow d-flex flex-column justify-content-center align-items-center">    
+            
+            <h3 class="text-white text-center mb-5">Sign in</h3>
+    
+            <div class="grey-card d-flex flex-column justify-content-center align-items-center p-4 w-75 h-75 bg-secondary bg-opacity-50 shadow">
+
+                <div class="input-group mb-5 w-75">
+                    <span class="input-group-text bg-transparent text-white border-0" id="basic-addon1">
+                        <i class="bi bi-person fs-4"></i>
+                    </span>
+                    <input type="text" class="form-control rounded" placeholder="Student Email" aria-label="student email" aria-describedby="basic-addon1">
+                </div>
+            
+                <div class="input-group mb-5 w-75">
+                    <span class="input-group-text bg-transparent text-white border-0" id="basic-addon2">
+                        <i class="bi bi-key fs-4"></i>
+                    </span>
+                    <input type="password" class="form-control rounded" placeholder="Password" aria-label="password" aria-describedby="basic-addon2">
+                </div>
+            
+                <!-- Sign in button -->
+                <button type="submit" class="btn login-btn btn-warning text-dark fs-5 fw-bold w-25 mt-3 rounded">Log in</button>
+            </div>
+                
+    
+        </div>
+    </div>
+
+
+    <!-- Import Bootstrap 5.3, JS & Popper.js -->
+    <script src="./bootstrap-5.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="./js/script.js"></script>
+</body>
+</html>
