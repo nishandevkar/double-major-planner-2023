@@ -113,30 +113,29 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
     <script>
     const selectedMajors = [];
-
-// 处理专业按钮点击事件的函数
+// Function to handle major button click events
 function handleMajorButtonClick(major) {
-    // 检查选定的专业是否已存在于数组中
-    console.log(major)
+    // Check if the selected major already exists in the array
+    console.log(major);
     const index = selectedMajors.indexOf(major);
 
     if (index === -1) {
-        // 如果专业未被选定，则将其添加到 selectedMajors 数组中
+        // If the major is not selected, add it to the selectedMajors array
         selectedMajors.push(major);
-        // 应用视觉样式以指示选定状态
+        // Apply a visual style to indicate the selected state
         document.querySelector(`[data-major="${major}"]`).classList.add('selected');
     } else {
-        // 如果专业已被选定，则从 selectedMajors 数组中移除它
+        // If the major is already selected, remove it from the selectedMajors array
         selectedMajors.splice(index, 1);
-        // 移除视觉样式
+        // Remove the visual style
         document.querySelector(`[data-major="${major}"]`).classList.remove('selected');
     }
 
-    // 更新显示的已选择专业
+    // Update the displayed selected majors
     updateSelectedMajors();
 }
 
-// 为专业按钮添加点击事件监听器
+// Add click event listeners to the major buttons
 document.querySelectorAll('.btn-outline-primary').forEach(button => {
     button.addEventListener('click', function () {
         const major = this.dataset.major;
@@ -144,21 +143,20 @@ document.querySelectorAll('.btn-outline-primary').forEach(button => {
     });
 });
 
-
-// 更新显示的已选择专业的函数
+// Function to update the displayed selected majors
 function updateSelectedMajors() {
     const selectedMajorsParagraph = document.getElementById('selected-majors-paragraph');
-    // 更新已选择专业的文本内容
-    selectedMajorsParagraph.textContent = `已选择的专业: ${selectedMajors.join(', ')}`;
+    // Update the text content for the selected majors
+    selectedMajorsParagraph.textContent = `Selected Majors:  ${selectedMajors.join(', ')}`;
 }
 
-// 发送已选择专业到后端并更新显示的已选择专业
+// Function to send selected majors to the backend and update the displayed selected majors
 function sendSelectedMajors() {
     if (selectedMajors.length === 2) {
-        // 创建一个数据对象，用于发送到 Flask 后端的 POST 请求
+        // Create a data object to send to the Flask backend with a POST request
         const data = { 'selected_majors': selectedMajors };
 
-        // 发送一个 AJAX POST 请求到 Flask 路由
+        // Send an AJAX POST request to the Flask route
         fetch('/submit_majors', {
             method: 'POST',
             headers: {
@@ -169,18 +167,19 @@ function sendSelectedMajors() {
         .then(response => response.json())
         .then(data => {
             console.log(data.message);
-            // 更新显示的已选择专业
+            // Update the displayed selected majors
             updateSelectedMajors();
-            // 根据需要处理响应
+            // Handle the response as needed
         })
         .catch(error => {
-            console.error('错误:', error);
+            console.error('Error:', error);
         });
     } else {
-        console.log('已选择的专业:', selectedMajors); // 将已选择的专业输出到控制台
-        alert('请选择两个专业。');
+        console.log('Selected Majors:', selectedMajors); // Output the selected majors to the console
+        alert('Please select two majors.');
     }
 }
+
 </script>
 
 </body>
