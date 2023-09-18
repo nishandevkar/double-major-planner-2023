@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Double Major Planner</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+<!-- UWA logo -->
+        <img class="m-md-2" src="{{ url_for('static', filename='imgs/uwa_logo.png') }}" alt="Logo" width="20%" >
+
+<!-- Nav buttons -->
+        <ul class="navbar-nav me-auto mb-md-2 mb-md-0">
+            <li class="nav-item m-md-4">
+                <a class="nav-link custom-capsule text-dark fs-5" href="#link1" id="btn1">Choose course</a>
+            </li>
+            <li class="nav-item m-md-4">
+                <a class="nav-link custom-capsule text-dark fs-5" href="#link2" id="btn2">Choose Majors</a>
+            </li>
+            <li class="nav-item m-md-4">
+                <a class="nav-link custom-capsule text-dark fs-5" href="#link2" id="btn2">Select units</a>
+            </li>
+            <li class="nav-item m-md-4">
+                <a class="nav-link custom-capsule text-dark fs-5" href="#link3" id="btn3">Timetable</a>
+            </li>
+        </ul>
+
+<!-- Login button -->
+        <a href="./login.html" class="btn btn-transparent text-white m-md-5 fs-4 ml-md-2">
+            <i class="bi bi-person-circle m-md-2"></i>
+            Log in
+        </a>
+    </nav>
+
+<!-- Select Major Area -->
+    <div class="major-container container overflow-hidden text-center">
+
+<!-- Title of the Page -->
+        <div class="major-title h1 mb-5 mt-3">Select A Major</div>
+        <div class="search-bar-container container">
+
+
+            <!-- Search area -->
+            <form class="form-inline my-2">
+                <div class="input-group">
+                    <input class="form-control flex-fill" type="text" placeholder="Search" aria-label="Search">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+<form id="major-selection-form">
+
+<!-- First row of Majors -->
+<!--        <div class="major-selection-row row mb-5">-->
+<!--            <div class="col">-->
+<!--                <button class="btn btn-lg p-4 btn-outline-primary" data-bs-toggle="button">Major</button>-->
+<!--            </div>-->
+<!--            <div class="col">-->
+<!--                <button class="btn btn-lg p-4 btn-outline-primary" data-bs-toggle="button">Major</button>-->
+<!--            </div>-->
+<!--            <div class="col">-->
+<!--                <button class="btn btn-lg p-4 btn-outline-primary" data-bs-toggle="button">Major</button>-->
+<!--            </div>-->
+<!--            <div class="col">-->
+<!--                <button class="btn btn-lg p-4 btn-outline-primary" data-bs-toggle="button">Major</button>-->
+<!--            </div>-->
+<!--        </div>-->
+
+
+<!--&lt;!&ndash; Second row of Majors &ndash;&gt;-->
+<!--        <div class="major-selection-row row">-->
+<!--            <div class="col">-->
+<!--                <button class="btn btn-lg p-4 btn-outline-primary" data-bs-toggle="button">Major</button>-->
+<!--            </div>-->
+<!--            <div class="col">-->
+<!--                <button class="btn btn-lg p-4 btn-outline-primary" data-bs-toggle="button">Major</button>-->
+<!--            </div>-->
+<!--            <div class="col">-->
+<!--                <button class="btn btn-lg p-4 btn-outline-primary" data-bs-toggle="button">Major</button>-->
+<!--            </div>-->
+<!--            <div class="col">-->
+<!--                <button class="btn btn-lg p-4 btn-outline-primary" data-bs-toggle="button">Major</button>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+<div class="major-selection-row row">
+    {% for major in majors %}
+    <div class="col">
+        <button class="btn btn-lg p-4 btn-outline-primary" data-bs-toggle="button" data-major="{{ major }}">
+            {{ major }}
+        </button>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Confirmation area -->
+    <div class="container mt-5 d-flex justify-content-between border rounded-4 p-3">
+        <p class="h5" id="selected-majors-paragraph"> Selected Majors: </p>
+        <div class="confirm-button btn btn-primary btn-lg" onclick="sendSelectedMajors()"> Confirm</div>
+    </div>
+</form>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <script>
+    const selectedMajors = [];
+
+// 处理专业按钮点击事件的函数
+function handleMajorButtonClick(major) {
+    // 检查选定的专业是否已存在于数组中
+    console.log(major)
+    const index = selectedMajors.indexOf(major);
+
+    if (index === -1) {
+        // 如果专业未被选定，则将其添加到 selectedMajors 数组中
+        selectedMajors.push(major);
+        // 应用视觉样式以指示选定状态
+        document.querySelector(`[data-major="${major}"]`).classList.add('selected');
+    } else {
+        // 如果专业已被选定，则从 selectedMajors 数组中移除它
+        selectedMajors.splice(index, 1);
+        // 移除视觉样式
+        document.querySelector(`[data-major="${major}"]`).classList.remove('selected');
+    }
+
+    // 更新显示的已选择专业
+    updateSelectedMajors();
+}
+
+// 为专业按钮添加点击事件监听器
+document.querySelectorAll('.btn-outline-primary').forEach(button => {
+    button.addEventListener('click', function () {
+        const major = this.dataset.major;
+        handleMajorButtonClick(major);
+    });
+});
+
+
+// 更新显示的已选择专业的函数
+function updateSelectedMajors() {
+    const selectedMajorsParagraph = document.getElementById('selected-majors-paragraph');
+    // 更新已选择专业的文本内容
+    selectedMajorsParagraph.textContent = `已选择的专业: ${selectedMajors.join(', ')}`;
+}
+
+// 发送已选择专业到后端并更新显示的已选择专业
+function sendSelectedMajors() {
+    if (selectedMajors.length === 2) {
+        // 创建一个数据对象，用于发送到 Flask 后端的 POST 请求
+        const data = { 'selected_majors': selectedMajors };
+
+        // 发送一个 AJAX POST 请求到 Flask 路由
+        fetch('/submit_majors', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data.message);
+            // 更新显示的已选择专业
+            updateSelectedMajors();
+            // 根据需要处理响应
+        })
+        .catch(error => {
+            console.error('错误:', error);
+        });
+    } else {
+        console.log('已选择的专业:', selectedMajors); // 将已选择的专业输出到控制台
+        alert('请选择两个专业。');
+    }
+}
+</script>
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
