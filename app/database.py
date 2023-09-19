@@ -29,3 +29,14 @@ def getCourses(db):
 def getMajors(db, courses):
     majors = ['Computer Science', 'Biology', 'History', 'Mathematics', 'Physics']
     return majors
+
+def getUnits(db, major):
+    units = [["all", "unit1", "unit2", "unit3"], [2, "unit4", "unit5", "unit6"], [3, "unit7", "unit8", "unit9", "unit10", "unit11"]]
+    return units
+
+def ifvalid(db, majors, units):
+    flag = True
+    ## TODO: Check if the units selection is valid.
+
+    ##
+    return flag
