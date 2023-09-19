@@ -21,3 +21,11 @@ def builddb(db):
         school='UWA Business School'
     ))
     db.session.commit()
+
+def getCourses(db):
+    courses = ['commerce']
+    return courses
+
+def getMajors(db, courses):
+    majors = ['Computer Science', 'Biology', 'History', 'Mathematics', 'Physics']
+    return majors
