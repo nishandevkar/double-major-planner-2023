@@ -82,7 +82,7 @@ Friday 20 October 2023 (week 12 of Semester 2 at UWA)
    On the second line, add your secret key:
 3. `SECRET_KEY==<your_secret_key>`
 
-4. Remember to add the .env file to your .gitignore file to ensure it doesn’t get uploaded to your version control system. This way, every member can maintain their local configurations without affecting others.
+4. Remember to add the `.env` file to your `.gitignore` file to ensure it doesn’t get uploaded to your version control system. This way, every member can maintain their local configurations without affecting others.
 
 ## Run the app
 
