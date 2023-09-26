@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Double Major Planner with Filters and Subject Selection</title>
+    <link rel="stylesheet" href="./css/style2.css">
+    <header>
+        <img  src="./imgs/uwa_logo.png" alt="Logo" width="20%" >
+        <nav>
+            <ul>
+                <li><a href="#">Choose Course</a></li>
+                <li><a href="#">Choose Major</a></li>
+                <li><a href="#">Select Unit</a></li>
+                <li><a href="#">Time Table</a></li>
+            </ul>
+        </nav>
+    </header>
+</head>
+<body>
+
+<div class="main-content">
+    <div id="plannerContainer">
+        <div class="title">Time Table Planner</div>
+    </div>
+
+    <div id="filterContainer">
+        <input id="searchBar" type="text" placeholder="Search...">
+        <div class="filter-button" data-filter="filter1">Filter 1</div>
+        <div class="filter-button" data-filter="filter2">Filter 2</div>
+        <div class="filter-button" data-filter="filter3">Filter 3</div>
+        <div class="filter-button" data-filter="filter4">Filter 4</div>
+        <div class="filter-button" data-filter="filter5">Filter 5</div>
+    </div>
+
+    <div id="selectionContainer">
+        <div class="title">Elective Units</div>
+    </div>
+</div>
+
+<div id="saveButton" onclick="saveAsPDF()">Save as PDF</div>
+
+<script src="./js/script2.js"></script>
+</body>
+</html>
