@@ -18,7 +18,7 @@
                 <li><a href="#">Choose Course</a></li>
                 <li><a href="#">Choose Major</a></li>
                 <li><a href="#">Select Unit</a></li>
-                <li><a href="#">Time Table</a></li>
+                <li><a href="#">Study Plan</a></li>
             </ul>
         </nav>
     </header>
@@ -30,33 +30,61 @@
             <p>Here's your double major planner for XXXXXXXXXXXX</p>
         </section>
 
-        <section class="major-overview">
-            <h2>Major Overview</h2>
-            <!-- Content for major overview -->
-            <div class="course-card">Course1</div> <!-- to be link to back end-->
-            <div class="course-card">Course2</div> <!-- to be link to back end-->
-        </section>
+        <div class="row">
+            <div class="column">
+               
+                    <h2>Major Overview</h2>
+                    <!-- Content for major overview -->
+                    <div><button class="button course">Course1</button></div> <!-- to be link to back end-->
+                    <div><button class="button course">Course2</button></div><!-- to be link to back end-->
+                
+            </div>
+            <div class="column">
+               
+                    <h2>Courses</h2>
+                    <div><button class="button unit">Core unit</button></div>
+                    <div><button class="button unit">Optional unit</button></div>
+           
+                
+            </div>
+            <div class="column">
+                
+                    <h2>Core unit</h2>
+                    <div class="course-card">Select all units here</div>
+                    <form action="#">
+                        <label for="unit">units</label>
+                        <select name="Select units" id="lang">
+                          <option value="unit1">JavaScript</option>
+                          <option value="unit2">PHP</option>
+                          <option value="unit3">Java</option>
+                          <option value="unit4">Golang</option>
+                          <option value="unit5">Python</option>
+                         
+                        </select>
+                        <input type="submit" value="Submit" />
+                  </form>
+                    <div> Display unit here</div>
+                 
+                
 
-        <section class="courses">
-            <h2>Courses</h2>
-            <div><button>Core unit</button></div>
-            <div><button>Optional unit</button></div>
-   
-        </section>
+            </div>
+            <div class="column">
+                
+                    <h2>Optional unit</h2>
+                    <div class="course-card">Select part of units here</div>
+                    <div> Display unit here</div>
+               
 
-        <section class="courses">
-            <h2>Core unit</h2>
-            <div class="course-card">Select all units here</div>
-            <div> Display unit here</div>
-         
-        </section>
+            </div>
+        </div>
+
+        
 
 
-        <section class="courses">
-            <h2>Optional unit</h2>
-            <div class="course-card">Select part of units here</div>
-            <div> Display unit here</div>
-        </section>
+
+
+
+       
     </main>
 
     <script src="./script.js"></script>
