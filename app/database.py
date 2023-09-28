@@ -23,11 +23,11 @@ def builddb(db):
     db.session.commit()
 
 def getCourses(db):
-    courses = ['commerce']
+    courses = ['Commerce']
     return courses
 
 def getMajors(db, courses):
-    majors = ['Computer Science', 'Biology', 'History', 'Mathematics', 'Physics']
+    majors = ['MJD-ACCTG Accounting', 'MJD-BSLAW Business Law', 'MJD-ECNSM Economics', 'MJD-FINCE Finance', 'MJD-HRSMT Human Resource Management', 'MJD-MGMNT Management', 'MJD-MRKTG Marketing', 'MJD-BUSAN Business Analytics']
     return majors
 
 def getUnits(db, major):
