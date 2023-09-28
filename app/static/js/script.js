@@ -1,4 +1,4 @@
-
+/* 
 document.querySelectorAll('.custom-capsule').forEach(btn => {
     btn.addEventListener('click', function() {
         document.querySelectorAll('.custom-capsule').forEach(innerBtn => {
@@ -7,3 +7,4 @@ document.querySelectorAll('.custom-capsule').forEach(btn => {
         btn.classList.add('active');
     });
 });
+ */

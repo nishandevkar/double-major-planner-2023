@@ -8,11 +8,15 @@ def init_routes(app, db):
     @app.route('/')
     def index():
         return redirect('/selectCourses')
+    
+    @app.route('/login')
+    def login():
+        return render_template('login.html')
 
     @app.route('/selectCourses')
     def selectCourses():
         courses = getCourses(db)
-        return render_template('selectCourse.html', courses=courses)
+        return render_template('selectCourse.html', active_page='selectCourses', courses=courses)
         # return render_template('base.html')
     @app.route('/submit_course', methods=['POST'])
     def submitCourse():
@@ -28,7 +32,7 @@ def init_routes(app, db):
     def selectMajor():
         majors = session.get('majors', [])  # 从session中获取专业数据
         print(majors)
-        return render_template('selectMajor.html', majors=majors)
+        return render_template('selectMajor.html', active_page='selectMajor', majors=majors)
         #return render_template('base.html')
 
     @app.route('/submit_majors', methods=['POST'])
