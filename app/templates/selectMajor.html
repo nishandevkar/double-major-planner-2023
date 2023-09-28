@@ -8,7 +8,7 @@
         <div class="major-container container overflow-hidden text-center">
 
         <!-- Title of the Page -->
-        <div class="major-title h1">Select 2 Majors</div>
+        <div class="major-title h1">Select Two Majors</div>
         <div class="search-bar-container container">
 
 
@@ -26,7 +26,7 @@
         <form id="major-selection-form">
 
 
-        <div class="major-selection-row row">
+        <div class="major-selection-row majors-lst row">
             {% for major in majors %}
             <div class="col">
                 <button class="btn majors mb-md-5 fs-6 btn-lg p-2" data-bs-toggle="button" data-major="{{ major }}">
@@ -38,9 +38,12 @@
 
 
 <!-- Confirmation area -->
-        <div class="container mt-5 d-flex justify-content-between border rounded-4 p-3">
-            <p class="h5" id="selected-majors-paragraph"> Selected Majors: </p>
-            <div class="confirm-button btn btn-primary btn-lg" onclick="sendSelectedMajors()"> Confirm</div>
+        <div class="container bg-light d-flex justify-content-between align-items-center border rounded-4 p-md-5">
+            <p class="h5"> Selected Majors: 
+                <span class="badge" id="major1"></span>
+                <span class="badge" id="major2"></span>
+            </p>            
+            <div class="confirm-button btn fw-bolder" onclick="sendSelectedMajors()"> Confirm</div>
         </div>
         </form>
 </div>
@@ -53,21 +56,44 @@ function handleMajorButtonClick(major) {
     // Check if the selected major already exists in the array
     console.log(major);
     const index = selectedMajors.indexOf(major);
+    const button = document.querySelector(`[data-major="${major}"]`);
 
     if (index === -1) {
         // If the major is not selected, add it to the selectedMajors array
         selectedMajors.push(major);
         // Apply a visual style to indicate the selected state
         document.querySelector(`[data-major="${major}"]`).classList.add('selected');
+        if (selectedMajors.length === 1) {
+            button.classList.add('first-selected');
+        } else if (selectedMajors.length === 2) {
+            button.classList.add('second-selected');
+        }
     } else {
         // If the major is already selected, remove it from the selectedMajors array
         selectedMajors.splice(index, 1);
         // Remove the visual style
         document.querySelector(`[data-major="${major}"]`).classList.remove('selected');
+        button.classList.remove('first-selected', 'second-selected');
     }
 
     // Update the displayed selected majors
     updateSelectedMajors();
+        
+    updateButtonColors();
+    updateSelectedMajors();
+}
+
+function updateButtonColors() {
+    document.querySelectorAll('.majors').forEach(button => {
+        button.classList.remove('first-selected', 'second-selected');
+    });
+
+    if (selectedMajors.length > 0) {
+        document.querySelector(`[data-major="${selectedMajors[0]}"]`).classList.add('first-selected');
+    }
+    if (selectedMajors.length > 1) {
+        document.querySelector(`[data-major="${selectedMajors[1]}"]`).classList.add('second-selected');
+    }
 }
 
 // Add click event listeners to the major buttons
@@ -75,15 +101,47 @@ document.querySelectorAll('.majors').forEach(button => {
     button.addEventListener('click', function () {
         const major = this.dataset.major;
         handleMajorButtonClick(major);
+        toggleButtons();
     });
 });
 
+// Function to toggle the disabled state of the major buttons based on the selectedMajors array length
+function toggleButtons() {
+    document.querySelectorAll('.majors').forEach(button => {
+        const major = button.dataset.major;
+        if (selectedMajors.length >= 2 && !selectedMajors.includes(major)) {
+            // If two majors are selected and the current button is not one of them, disable the button
+            button.setAttribute('disabled', 'disabled');
+        } else {
+            // If less than two majors are selected, or the current button is one of the selected majors, enable the button
+            button.removeAttribute('disabled');
+        }
+    });
+}
+
 // Function to update the displayed selected majors
 function updateSelectedMajors() {
-    const selectedMajorsParagraph = document.getElementById('selected-majors-paragraph');
-    // Update the text content for the selected majors
-    selectedMajorsParagraph.textContent = `Selected Majors:  ${selectedMajors.join(', ')}`;
+    const major1Badge = document.getElementById('major1');
+    const major2Badge = document.getElementById('major2');
+    
+    major1Badge.className = 'badge';
+    major2Badge.className = 'badge';
+    major1Badge.textContent = '';
+    major2Badge.textContent = '';
+    
+    
+    if (selectedMajors.length > 0) {
+        major1Badge.textContent = selectedMajors[0];
+        major1Badge.classList.add('first-selected');
+    }
+    if (selectedMajors.length > 1) {
+        major2Badge.textContent = selectedMajors[1];
+        major2Badge.classList.add('second-selected');
+    }
 }
+
+
+
 
 // Function to send selected majors to the backend and update the displayed selected majors
 function sendSelectedMajors() {

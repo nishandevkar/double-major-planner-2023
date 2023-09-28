@@ -167,12 +167,68 @@ nav ul li a:hover {
 
 
 /* select major */
+.major-title {
+    color: #28348B;
+}
+
+.majors-lst {
+    align-items: center;
+    width: 95%;
+}
 
 .majors {
     width: 150px;
     height: 100px;
+    border-color: #02020296;
 }
 
+.majors:hover {
+    background-color: #070707a0;
+    color: white;
+}
+
+/* .majors.active {
+    background-color: #050505d6;
+    color: white;
+} */
+
+.first-selected {
+    background-color: #28348B !important; 
+    color: white !important;
+}
+
+.second-selected {
+    background-color: #DEAD00 !important;
+    color: white !important;
+}
+
+.majors:disabled {
+    background-color: #d4d4d4;
+}
+
+
+#major1 {
+    background-color: #28348B;
+    padding: 1rem;
+    margin-left: 1rem;
+}
+
+#major2 {
+    background-color: #DEAD00;
+    padding: 1rem;
+    margin-left: 1rem;
+}
+
+.confirm-button {
+    background-color: lightgray;
+    align-items: center;
+    padding: 1rem;
+}
+
+.confirm-button:hover {
+    background-color: lightslategrey;
+    color: white;
+}
 /* .major-search {
     background-color: #28348B;
     

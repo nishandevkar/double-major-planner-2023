@@ -25,16 +25,16 @@
 } 
 
 .custom-capsule {
-    border-radius: 10px !important; 
-    background-color: transparent !important;
+    border-radius: 10px; 
+    background-color: transparent;
     transition: background-color 0.3s;
 }
 
 .custom-capsule:hover {
-    background-color: #59595a67 !important;
+    background-color: #59595a67;
 }
 .custom-capsule.active {
-    background-color: #DEAD00 !important;
+    background-color: #DEAD00;
 }
 
 .btn-transparent {
