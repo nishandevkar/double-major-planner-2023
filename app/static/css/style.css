@@ -46,9 +46,26 @@
 .blue-card {
     background-color: rgba(34, 47, 129, 0.85);
     border-radius: 20px;
+    padding: 2rem;
+    width: 55%;
+    height: 55%;
 }
 
-
+.login-container{
+    margin: 0 auto;
+    padding: 2rem;
+}
 .grey-card {
     border-radius: 15px;
+    width: 75%;
+    height: 75%;
+}
+.login-help-text{
+    color: white;
+    font-size: small;
+    padding: 1rem;
+}
+.sign-in-title{
+    font-weight: bold;
+    padding: 8ßpx;
 }
