@@ -177,3 +177,111 @@ nav ul li a:hover {
     background-color: #28348B;
     
 } */
+
+/* studyPlan */
+body {
+    display: flex;
+    font-size: 16px;  /* Base font size */
+    flex-direction: column;  /* Align main content vertically */
+}
+
+.title {
+    text-align: center;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+.main-content {
+    display: flex;  /* Align main containers horizontally */
+}
+
+#plannerContainer, #selectionContainer {
+    flex: 1;
+    max-width: 400px;
+}
+
+.semester-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 20px;
+    padding: 10px;
+    border: 1px solid black;
+}
+
+#selectionContainer .semester-container {
+    border: none;  /* Remove border for the right side container */
+    margin: 20px 0;
+    padding: 0;
+}
+
+.subject-container {
+    flex: 1;
+    margin: 2.5px;
+    padding: 5px;
+    border: 1px solid black;
+    text-align: center;
+    position: relative;
+}
+
+.subject-container::before {
+    content: "";
+    display: block;
+    padding-top: 100%;  
+}
+
+.subject-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    font-size: calc(16px / 3);  /* Reduced font size */
+}
+
+.header {
+    font-weight: bold;
+    text-align: center;
+    margin-right: 10px;
+    flex-shrink: 0;
+}
+
+#filterContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+}
+
+#searchBar {
+    margin-bottom: 20px;
+    padding: 5px;
+}
+
+.filter-button {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid black;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.filter-button:hover {
+    background-color: #ddd;
+}
+
+#saveButton {
+    margin-top: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border: 1px solid black;
+    text-align: center;
+    align-self: center;
+}
+
+#saveButton:hover {
+    background-color: #ddd;
+}
