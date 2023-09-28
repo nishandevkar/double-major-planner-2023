@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="main-content">
+    <div id="plannerContainer">
+        <div class="title">Time Table Planner</div>
+    </div>
+
+    <div id="filterContainer">
+        <input id="searchBar" type="text" placeholder="Search...">
+        <div class="filter-button" data-filter="filter1">Filter 1</div>
+        <div class="filter-button" data-filter="filter2">Filter 2</div>
+        <div class="filter-button" data-filter="filter3">Filter 3</div>
+        <div class="filter-button" data-filter="filter4">Filter 4</div>
+        <div class="filter-button" data-filter="filter5">Filter 5</div>
+    </div>
+
+    <div id="selectionContainer">
+        <div class="title">Elective Units</div>
+    </div>
+</div>
+
+<div id="saveButton" onclick="saveAsPDF()">Save as PDF</div>
+
+{% endblock %}

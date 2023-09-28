@@ -47,3 +47,7 @@ def init_routes(app, db):
             # Respond with a success message
             response = {'message': 'Selected majors received successfully'}
             return jsonify(response)
+        
+    @app.route('/studyPlan')
+    def studyPlan():
+        return render_template('studyPlan.html', active_page='studyPlan')
