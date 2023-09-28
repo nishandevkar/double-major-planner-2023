@@ -2,80 +2,50 @@
 
 {% block content %}
 
-<!-- Select Major Area -->
-<div class="major-container container overflow-hidden text-center">
+<div class="contents">
+    <div class="card">
+        <!-- Select Major Area -->
+        <div class="major-container container overflow-hidden text-center">
 
-<!-- Title of the Page -->
-<div class="major-title h1 mb-5 mt-3">Select A Major</div>
-<div class="search-bar-container container">
+        <!-- Title of the Page -->
+        <div class="major-title h1 mb-5 mt-3">Select Majors</div>
+        <div class="search-bar-container container">
 
 
-    <!-- Search area -->
-    <form class="form-inline my-2">
-        <div class="input-group">
-            <input class="form-control flex-fill" type="text" placeholder="Search" aria-label="Search">
-            <div class="input-group-append">
-                <button class="btn btn-primary" type="submit">Search</button>
-            </div>
+            <!-- Search area -->
+            <form class="form-inline my-2 mb-md-3">
+                <div class="input-group">
+                    <input class="form-control flex-fill" type="text" placeholder="Search" aria-label="Search">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit">Search</button>
+                    </div>
+                </div>
+            </form>
         </div>
-    </form>
-</div>
 
-<form id="major-selection-form">
-
-<!-- First row of Majors -->
-<!--        <div class="major-selection-row row mb-5">-->
-<!--            <div class="col">-->
-<!--                <button class="btn btn-lg p-4 btn-outline-primary" data-bs-toggle="button">Major</button>-->
-<!--            </div>-->
-<!--            <div class="col">-->
-<!--                <button class="btn btn-lg p-4 btn-outline-primary" data-bs-toggle="button">Major</button>-->
-<!--            </div>-->
-<!--            <div class="col">-->
-<!--                <button class="btn btn-lg p-4 btn-outline-primary" data-bs-toggle="button">Major</button>-->
-<!--            </div>-->
-<!--            <div class="col">-->
-<!--                <button class="btn btn-lg p-4 btn-outline-primary" data-bs-toggle="button">Major</button>-->
-<!--            </div>-->
-<!--        </div>-->
+        <form id="major-selection-form">
 
 
-<!--&lt;!&ndash; Second row of Majors &ndash;&gt;-->
-<!--        <div class="major-selection-row row">-->
-<!--            <div class="col">-->
-<!--                <button class="btn btn-lg p-4 btn-outline-primary" data-bs-toggle="button">Major</button>-->
-<!--            </div>-->
-<!--            <div class="col">-->
-<!--                <button class="btn btn-lg p-4 btn-outline-primary" data-bs-toggle="button">Major</button>-->
-<!--            </div>-->
-<!--            <div class="col">-->
-<!--                <button class="btn btn-lg p-4 btn-outline-primary" data-bs-toggle="button">Major</button>-->
-<!--            </div>-->
-<!--            <div class="col">-->
-<!--                <button class="btn btn-lg p-4 btn-outline-primary" data-bs-toggle="button">Major</button>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
+        <div class="major-selection-row row">
+            {% for major in majors %}
+            <div class="col">
+                <button class="btn majors btn-lg p-2" data-bs-toggle="button" data-major="{{ major }}">
+                    {{ major }}
+                </button>
+            </div>
+            {% endfor %}
+        </div>
 
-<div class="major-selection-row row">
-    {% for major in majors %}
-    <div class="col">
-        <button class="btn btn-lg p-4 btn-outline-primary" data-bs-toggle="button" data-major="{{ major }}">
-            {{ major }}
-        </button>
-    </div>
-    {% endfor %}
-</div>
 
 <!-- Confirmation area -->
-    <div class="container mt-5 d-flex justify-content-between border rounded-4 p-3">
-        <p class="h5" id="selected-majors-paragraph"> Selected Majors: </p>
-        <div class="confirm-button btn btn-primary btn-lg" onclick="sendSelectedMajors()"> Confirm</div>
-    </div>
-</form>
+        <div class="container mt-5 d-flex justify-content-between border rounded-4 p-3">
+            <p class="h5" id="selected-majors-paragraph"> Selected Majors: </p>
+            <div class="confirm-button btn btn-primary btn-lg" onclick="sendSelectedMajors()"> Confirm</div>
+        </div>
+        </form>
+</div>
+</div>
 
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 <script>
     const selectedMajors = [];
 // Function to handle major button click events
@@ -101,7 +71,7 @@ function handleMajorButtonClick(major) {
 }
 
 // Add click event listeners to the major buttons
-document.querySelectorAll('.btn-outline-primary').forEach(button => {
+document.querySelectorAll('.majors').forEach(button => {
     button.addEventListener('click', function () {
         const major = this.dataset.major;
         handleMajorButtonClick(major);

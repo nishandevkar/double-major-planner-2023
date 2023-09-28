@@ -16,7 +16,7 @@ body {
 }
 
 /* Header Styles */
-header {
+/* header {
     background-color: #28348B;
     display: flex;
     justify-content: space-between;
@@ -43,23 +43,33 @@ nav ul li a {
 
 nav ul li a:hover {
     background-color: #DEAD00;
-}
+} */
 
 /* Main Content Styles */
-main {
+.contents {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* min-height: 100vh; */
+}
+
+.card {
+    align-items: center;
+    width: 75%;
     background-color: #fff;
-    border-radius: 8px;
-    padding: 2rem;
+    border-radius: 10px;
+    padding: 4rem;
     margin: 2rem 0;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .intro {
-    margin-bottom: 2rem;
+    margin-bottom: 3rem;
 }
 
 .intro h1 {
-    font-size: 2rem;
+    margin-bottom: 1rem;
+    font-size: 3rem;
     color: #28348B;
 }
 
@@ -83,7 +93,8 @@ main {
 /* Course Card Dropdown Styles */
 .course-card-dropdown {
     position: relative;
-    width: 200px; /* Adjust width as needed */
+    width: 75%; /* Adjust width as needed */
+    margin-bottom: 2rem;
 }
 
 .course-card-btn {
@@ -134,10 +145,10 @@ main {
 
 .confirm-btn {
     display: block;
-    width: 100%;
+    width: 20%;
     margin-top: 20px;
     padding: 15px;
-    background-color: yellow;
+    background-color: lightgray;
     border: none;
     border-radius: 8px;
     font-size: 18px;
@@ -146,10 +157,18 @@ main {
 }
 
 .confirm-btn:hover {
-    background-color: gold;
+    background-color: #DEAD00;
 }
 
 .confirm-btn:disabled {
     background-color: #f0f0f0;
     cursor: not-allowed;
+}
+
+
+/* select major */
+
+.majors {
+    width: 150px;
+    height: 100px;
 }

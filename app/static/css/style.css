@@ -12,7 +12,8 @@
 }
 
 .nav-item {
-    width: 170px; 
+    margin-right: 3px;
+    width: 150px; 
     text-align: center;
     align-items: center;
     justify-content: center;
@@ -29,6 +30,9 @@
     transition: background-color 0.3s;
 }
 
+.custom-capsule:hover {
+    background-color: #59595a67 !important;
+}
 .custom-capsule.active {
     background-color: #DEAD00 !important;
 }
