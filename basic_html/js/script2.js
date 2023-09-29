@@ -34,4 +34,30 @@ document.addEventListener("DOMContentLoaded", function() {
     confirmBtn.addEventListener('click', function() {
         window.location.href = "selectMajor.html";
     });
+
+});
+
+
+    // Get references to the button and dropdown
+    const selectButton = document.getElementById('selectButton');
+    const dropdown = document.getElementById('dropdown');
+
+    // Event listener for the button click
+    selectButton.addEventListener('click', () => {
+    // Disable the placeholder option
+    document.querySelector('#dropdown option[value=""]').disabled = true;
+    
+    // You can add additional logic here to dynamically populate the dropdown options
+    // For example, fetching options from an API, database, or predefined data.
+
+    // For this example, we'll add a couple of options dynamically
+    const newOption1 = document.createElement('option');
+    newOption1.value = 'dynamicOption1';
+    newOption1.textContent = 'Dynamic Option 1';
+    dropdown.appendChild(newOption1);
+
+    const newOption2 = document.createElement('option');
+    newOption2.value = 'dynamicOption2';
+    newOption2.textContent = 'Dynamic Option 2';
+    dropdown.appendChild(newOption2);
 });
