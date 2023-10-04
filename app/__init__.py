@@ -19,7 +19,9 @@ app.static_folder = 'static'
 app.config.from_object(Config)
 app.app_context().push()
 
-db = SQLAlchemy(app)
-builddb(db)
+# db = SQLAlchemy(app)
+# builddb(db)
 
-init_routes(app, db)
+# init_routes(app, db)
+
+init_routes(app)

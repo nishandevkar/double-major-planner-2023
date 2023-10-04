@@ -1,5 +1,8 @@
+import sqlite3
+
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import create_engine
 
 def builddb(db):
 
@@ -22,12 +25,23 @@ def builddb(db):
     ))
     db.session.commit()
 
-def getCourses(db):
+def getCourses():
     courses = ['Commerce']
     return courses
 
-def getMajors(db, courses):
-    majors = ['MJD-ACCTG Accounting', 'MJD-BSLAW Business Law', 'MJD-ECNSM Economics', 'MJD-FINCE Finance', 'MJD-HRSMT Human Resource Management', 'MJD-MGMNT Management', 'MJD-MRKTG Marketing', 'MJD-BUSAN Business Analytics']
+def getMajors(courses):
+    majors = []
+    conn = sqlite3.connect('./majors_database.db')
+    cursor = conn.cursor()
+    query = f"""
+    SELECT major
+    FROM MAJOR
+    """
+    cursor.execute(query)
+    rows = cursor.fetchall()
+    conn.close()
+    for row in rows:
+        majors.append(row[0])
     return majors
 
 def getUnits(db, major):

@@ -159,10 +159,9 @@ function sendSelectedMajors() {
         })
         .then(response => response.json())
         .then(data => {
-            console.log(data.message);
-            // Update the displayed selected majors
-            updateSelectedMajors();
-            // Handle the response as needed
+            if (data.redirect_url) {
+                window.location.href = data.redirect_url;
+            }
         })
         .catch(error => {
             console.error('Error:', error);
