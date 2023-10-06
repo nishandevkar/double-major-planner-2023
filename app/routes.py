@@ -3,7 +3,7 @@ import sqlite3
 from flask import Flask, render_template, request, jsonify, redirect, url_for, session
 from wtforms import SelectMultipleField
 from app.forms import Majorform
-from app.database import getCourses, getMajors
+from app.database import getCourses, getMajors, getUnits
 
 def init_routes(app):
 
@@ -49,27 +49,7 @@ def init_routes(app):
         # Respond with a success message
         # response = {'message': 'Selected majors received successfully'}
         # return jsonify(response)
-
-
-        conn = sqlite3.connect('./majors_database.db')
-        cursor = conn.cursor()
-        query = f"""
-        SELECT Unit.Code, Title, level, credit, Unit.major, Group_and_Unit.grouping, prerequisites, Is_Core
-        FROM Unit, Group_and_Unit
-        WHERE
-            (Group_and_Unit.major='{selected_majors[0]}' OR Group_and_Unit.major='{selected_majors[1]}') AND
-            Unit.Code=Group_and_Unit.Code AND
-            (Avail_1_Semester_Year IN ('1 Semester 2023', '2 Semester 2023') OR 
-            Avail_2_Semester_Year IN ('1 Semester 2023', '2 Semester 2023') OR 
-            Avail_3_Semester_Year IN ('1 Semester 2023', '2 Semester 2023') OR 
-            Avail_4_Semester_Year IN ('1 Semester 2023', '2 Semester 2023') OR 
-            Avail_5_Semester_Year IN ('1 Semester 2023', '2 Semester 2023') OR 
-            Avail_6_Semester_Year IN ('1 Semester 2023', '2 Semester 2023') OR 
-            Avail_7_Semester_Year IN ('1 Semester 2023', '2 Semester 2023'))
-        """
-        cursor.execute(query)
-        rows = cursor.fetchall()
-        conn.close()
+        rows = getUnits(selected_majors)
         session['study_plan_data'] = rows
         # print(rows)
         # return redirect(url_for('studyPlan'))
@@ -80,7 +60,7 @@ def init_routes(app):
     @app.route('/studyPlan', methods=['GET'])
     def studyPlan():
         study_plan_data = session.get('study_plan_data')
-        print(session.get('study_plan_data'))
+        # print(session.get('study_plan_data'))
         return render_template('studyPlan.html', active_page='studyPlan')
 
 
