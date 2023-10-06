@@ -46,14 +46,14 @@ def getMajors(courses):
 
 def getUnits(selected_majors):
     #units = [["all", "unit1", "unit2", "unit3"], [2, "unit4", "unit5", "unit6"], [3, "unit7", "unit8", "unit9", "unit10", "unit11"]]
-    conn = sqlite3.connect('./new_commerce_final_with_students.db')
+    conn = sqlite3.connect('./commerce_database_solution1.sqlite')
     cursor = conn.cursor()
     query = f"""
-    SELECT unit.Code, unit.Title, major_with_level_group.level_group_name, major_with_level_group.major_name, unit.prerequisites, unit.Is_Core
-    FROM unit, major_with_level_group
+    SELECT unit_table.Code, unit_table.Title, unit_with_level.level_id, unit_with_major.major_name, unit_table.prerequisites, unit_table.Is_Core
+    FROM unit_table, unit_with_major, unit_with_level
     WHERE
-        (major_with_level_group.major_name='{selected_majors[0]}' OR major_with_level_group.major_name='{selected_majors[1]}') AND
-        unit.Code=major_with_level_group.unit_code AND
+        (unit_with_major.major_name='{selected_majors[0]}' OR unit_with_major.major_name='{selected_majors[1]}') AND
+        unit_table.Code=unit_with_major.Code AND unit_table.Code=unit_with_level.Code AND
         (Avail_1_Semester_Year IN ('1 Semester 2023', '2 Semester 2023') OR 
         Avail_2_Semester_Year IN ('1 Semester 2023', '2 Semester 2023') OR 
         Avail_3_Semester_Year IN ('1 Semester 2023', '2 Semester 2023') OR 
@@ -64,8 +64,15 @@ def getUnits(selected_majors):
     """
     cursor.execute(query)
     rows = cursor.fetchall()
+    query = f"""
+        SELECT *
+        FROM major_table
+        WHERE major_table.major_name='{selected_majors[0]}' OR major_table.major_name='{selected_majors[1]}'
+        """
+    cursor.execute(query)
+    structures = cursor.fetchall()
     conn.close()
-    return rows
+    return rows, structures
 
 def ifvalid(db, majors, units):
     flag = True

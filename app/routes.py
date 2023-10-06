@@ -25,7 +25,7 @@ def init_routes(app):
         data = request.json
         selected_course = data.get('selected_course','')
         majors = getMajors(selected_course)
-        print(majors)
+        # print(majors)
         session['majors'] = majors
         response = {'majors': majors}
         return jsonify(response)
@@ -33,7 +33,7 @@ def init_routes(app):
     @app.route('/selectMajor', methods=['GET','POST'])
     def selectMajor():
         majors = session.get('majors', [])  # 从session中获取专业数据
-        print(majors)
+        # print(majors)
         return render_template('selectMajor.html', active_page='selectMajor', majors=majors)
         #return render_template('base.html')
 
@@ -49,8 +49,9 @@ def init_routes(app):
         # Respond with a success message
         # response = {'message': 'Selected majors received successfully'}
         # return jsonify(response)
-        rows = getUnits(selected_majors)
+        rows,structures = getUnits(selected_majors)
         session['study_plan_data'] = rows
+        session['study_plan_structures'] = structures
         # print(rows)
         # return redirect(url_for('studyPlan'))
         response_data = {'redirect_url': '/studyPlan'}
@@ -61,6 +62,7 @@ def init_routes(app):
     def studyPlan():
         study_plan_data = session.get('study_plan_data')
         # print(session.get('study_plan_data'))
+        # print(session.get('study_plan_structures'))
         return render_template('studyPlan.html', active_page='studyPlan')
 
 
