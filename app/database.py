@@ -31,11 +31,11 @@ def getCourses():
 
 def getMajors(courses):
     majors = []
-    conn = sqlite3.connect('./majors_database.db')
+    conn = sqlite3.connect('./commerce_database_solution1.sqlite')
     cursor = conn.cursor()
     query = f"""
-    SELECT major
-    FROM MAJOR
+    SELECT major_name
+    FROM major_table
     """
     cursor.execute(query)
     rows = cursor.fetchall()
