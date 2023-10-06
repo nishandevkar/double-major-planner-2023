@@ -36,6 +36,7 @@ def getMajors(courses):
     query = f"""
     SELECT major_name
     FROM major_table
+    WHERE major_name!='Foundation'
     """
     cursor.execute(query)
     rows = cursor.fetchall()
@@ -52,7 +53,7 @@ def getUnits(selected_majors):
     SELECT unit_table.Code, unit_table.Title, unit_with_level.level_id, unit_with_major.major_name, unit_table.prerequisites, unit_table.Is_Core
     FROM unit_table, unit_with_major, unit_with_level
     WHERE
-        (unit_with_major.major_name='{selected_majors[0]}' OR unit_with_major.major_name='{selected_majors[1]}') AND
+        (unit_with_major.major_name='{selected_majors[0]}' OR unit_with_major.major_name='{selected_majors[1]}' OR unit_with_major.major_name='Foundation') AND
         unit_table.Code=unit_with_major.Code AND unit_table.Code=unit_with_level.Code AND
         (Avail_1_Semester_Year IN ('1 Semester 2023', '2 Semester 2023') OR 
         Avail_2_Semester_Year IN ('1 Semester 2023', '2 Semester 2023') OR 
