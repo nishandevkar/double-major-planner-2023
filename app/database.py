@@ -50,18 +50,31 @@ def getUnits(selected_majors):
     conn = sqlite3.connect('./commerce_database_solution1.sqlite')
     cursor = conn.cursor()
     query = f"""
-    SELECT unit_table.Code, unit_table.Title, unit_with_level.level_id, unit_with_major.major_name, unit_table.prerequisites, unit_table.Is_Core
-    FROM unit_table, unit_with_major, unit_with_level
+    SELECT 
+        unit_table.Code, 
+        unit_table.Title, 
+        unit_with_level.level_id, 
+        unit_with_major.major_name, 
+        unit_table.prerequisites, 
+        unit_table.Is_Core,
+        CASE 
+            WHEN '1 Semester 2023' IN (Avail_1_Semester_Year, Avail_2_Semester_Year, Avail_3_Semester_Year, Avail_4_Semester_Year, Avail_5_Semester_Year, Avail_6_Semester_Year, Avail_7_Semester_Year) 
+                THEN 'true'
+            ELSE 'false'
+        END AS sem1,
+        CASE 
+            WHEN '2 Semester 2023' IN (Avail_1_Semester_Year, Avail_2_Semester_Year, Avail_3_Semester_Year, Avail_4_Semester_Year, Avail_5_Semester_Year, Avail_6_Semester_Year, Avail_7_Semester_Year) 
+                THEN 'true'
+            ELSE 'false'
+        END AS sem2
+    FROM 
+        unit_table, unit_with_major, unit_with_level
     WHERE
         (unit_with_major.major_name='{selected_majors[0]}' OR unit_with_major.major_name='{selected_majors[1]}' OR unit_with_major.major_name='Foundation') AND
         unit_table.Code=unit_with_major.Code AND unit_table.Code=unit_with_level.Code AND
-        (Avail_1_Semester_Year IN ('1 Semester 2023', '2 Semester 2023') OR 
-        Avail_2_Semester_Year IN ('1 Semester 2023', '2 Semester 2023') OR 
-        Avail_3_Semester_Year IN ('1 Semester 2023', '2 Semester 2023') OR 
-        Avail_4_Semester_Year IN ('1 Semester 2023', '2 Semester 2023') OR 
-        Avail_5_Semester_Year IN ('1 Semester 2023', '2 Semester 2023') OR 
-        Avail_6_Semester_Year IN ('1 Semester 2023', '2 Semester 2023') OR 
-        Avail_7_Semester_Year IN ('1 Semester 2023', '2 Semester 2023'))
+        ('1 Semester 2023' IN (Avail_1_Semester_Year, Avail_2_Semester_Year, Avail_3_Semester_Year, Avail_4_Semester_Year, Avail_5_Semester_Year, Avail_6_Semester_Year, Avail_7_Semester_Year) OR 
+        '2 Semester 2023' IN (Avail_1_Semester_Year, Avail_2_Semester_Year, Avail_3_Semester_Year, Avail_4_Semester_Year, Avail_5_Semester_Year, Avail_6_Semester_Year, Avail_7_Semester_Year));
+
     """
     cursor.execute(query)
     rows = cursor.fetchall()
