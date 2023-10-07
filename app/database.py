@@ -72,6 +72,7 @@ def getUnits(selected_majors):
     WHERE
         (unit_with_major.major_name='{selected_majors[0]}' OR unit_with_major.major_name='{selected_majors[1]}' OR unit_with_major.major_name='Foundation') AND
         unit_table.Code=unit_with_major.Code AND unit_table.Code=unit_with_level.Code AND
+        unit_table.major=unit_with_major.major_id AND
         ('1 Semester 2023' IN (Avail_1_Semester_Year, Avail_2_Semester_Year, Avail_3_Semester_Year, Avail_4_Semester_Year, Avail_5_Semester_Year, Avail_6_Semester_Year, Avail_7_Semester_Year) OR 
         '2 Semester 2023' IN (Avail_1_Semester_Year, Avail_2_Semester_Year, Avail_3_Semester_Year, Avail_4_Semester_Year, Avail_5_Semester_Year, Avail_6_Semester_Year, Avail_7_Semester_Year));
 
