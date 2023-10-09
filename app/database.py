@@ -120,30 +120,30 @@ def getUnits(selected_majors):
     cursor = conn.cursor()
     query = """
     SELECT 
-        unit_table.Code, 
-        unit_table.Title, 
-        unit_with_level.level_id, 
-        unit_with_major.major_name, 
-        unit_table.prerequisites, 
-        unit_table.Is_Core,
-        CASE 
-            WHEN '1 Semester 2023' IN (Avail_1_Semester_Year, Avail_2_Semester_Year, Avail_3_Semester_Year, Avail_4_Semester_Year, Avail_5_Semester_Year, Avail_6_Semester_Year, Avail_7_Semester_Year) 
-                THEN 'true'
-            ELSE 'false'
-        END AS sem1,
-        CASE 
-            WHEN '2 Semester 2023' IN (Avail_1_Semester_Year, Avail_2_Semester_Year, Avail_3_Semester_Year, Avail_4_Semester_Year, Avail_5_Semester_Year, Avail_6_Semester_Year, Avail_7_Semester_Year) 
-                THEN 'true'
-            ELSE 'false'
-        END AS sem2
-    FROM 
-        unit_table, unit_with_major, unit_with_level
-    WHERE
-        (unit_with_major.major_name=? OR unit_with_major.major_name=? OR unit_with_major.major_name='Foundation') AND
-        unit_table.Code=unit_with_major.Code AND unit_table.Code=unit_with_level.Code AND
-        unit_table.major=unit_with_major.major_id AND
-        ('1 Semester 2023' IN (Avail_1_Semester_Year, Avail_2_Semester_Year, Avail_3_Semester_Year, Avail_4_Semester_Year, Avail_5_Semester_Year, Avail_6_Semester_Year, Avail_7_Semester_Year) OR 
-        '2 Semester 2023' IN (Avail_1_Semester_Year, Avail_2_Semester_Year, Avail_3_Semester_Year, Avail_4_Semester_Year, Avail_5_Semester_Year, Avail_6_Semester_Year, Avail_7_Semester_Year));
+    unit_table.Code, 
+    unit_table.Title, 
+    unit_table.Level,  -- 修改这里
+    unit_with_major.major_name, 
+    unit_table.prerequisites, 
+    unit_table.Is_Core,
+    CASE 
+        WHEN '1 Semester 2023' IN (Avail_1_Semester_Year, Avail_2_Semester_Year, Avail_3_Semester_Year, Avail_4_Semester_Year, Avail_5_Semester_Year, Avail_6_Semester_Year, Avail_7_Semester_Year) 
+            THEN 'true'
+        ELSE 'false'
+    END AS sem1,
+    CASE 
+        WHEN '2 Semester 2023' IN (Avail_1_Semester_Year, Avail_2_Semester_Year, Avail_3_Semester_Year, Avail_4_Semester_Year, Avail_5_Semester_Year, Avail_6_Semester_Year, Avail_7_Semester_Year) 
+            THEN 'true'
+        ELSE 'false'
+    END AS sem2
+FROM 
+    unit_table, unit_with_major, unit_with_level
+WHERE
+    (unit_with_major.major_name=? OR unit_with_major.major_name=? OR unit_with_major.major_name='Foundation') AND
+    unit_table.Code=unit_with_major.Code AND unit_table.Code=unit_with_level.Code AND
+    unit_table.major=unit_with_major.major_id AND
+    ('1 Semester 2023' IN (Avail_1_Semester_Year, Avail_2_Semester_Year, Avail_3_Semester_Year, Avail_4_Semester_Year, Avail_5_Semester_Year, Avail_6_Semester_Year, Avail_7_Semester_Year) OR 
+    '2 Semester 2023' IN (Avail_1_Semester_Year, Avail_2_Semester_Year, Avail_3_Semester_Year, Avail_4_Semester_Year, Avail_5_Semester_Year, Avail_6_Semester_Year, Avail_7_Semester_Year));
     """
     cursor.execute(query, (selected_majors[0], selected_majors[1]))
     raw_data = cursor.fetchall()

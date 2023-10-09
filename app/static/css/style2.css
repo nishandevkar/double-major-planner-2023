@@ -342,11 +342,24 @@ body {
     background-color: #ddd;
 }
 
-
+/* study plan  */
 .row-container {
     display: flex;
     align-items: center;
 }
 .add-unit-btn {
     margin-left: 20px;
+}
+
+.scroll-container {
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.units-info {
+    font-size: 11px;
+}
+
+.prerequiste-btn {
+    font-size: 11px;
 }

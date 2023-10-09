@@ -1,51 +1,107 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>Year/Sem</th>
-            <th>Unit 1</th>
-            <th>Unit 2</th>
-            <th>Unit 3</th>
-            <th>Unit 4</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for sem_level, unit_list in units.items() %}
-            <tr>
-                <td>{{ sem_level }}</td>
-                {% for unit in unit_list %}
-                    <td>
-                        <strong>{{ unit[0] }} - {{ unit[1] }}</strong><br> <!-- Code - Title -->
-                        Level: {{ unit[2] }}<br>
-                        Major: {{ unit[3] }}<br>
-                        {% if unit[4] != 'Nil.' %}Prerequisites: {{ unit[4] }}<br>{% endif %}
-                        {% if unit[5] == 1 %}Core Unit<br>{% endif %}Credits: 6 points<br>
-                        {% if unit[6] == 'true' %}Available in Sem 1<br>{% endif %}
-                        {% if unit[7] == 'true' %}Available in Sem 2<br>{% endif %}
-                    </td>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-7 scroll-container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="text-center" colspan="6">Study Plan</th>
+                    </tr>
+                </thead>
+                <tbody class="units-info">
+                    {% for sem_level, unit_list in units.items() %}
+                    <tr>
+                        <td>{{ sem_level }}</td>
+                        {% for unit in unit_list %}
+                            <td>
+                                <strong>{{ unit[0] }} - {{ unit[1] }}</strong><br> <!-- Code - Title -->
+                                Level {{ unit[2] }}<br>
+                                Major: {{ unit[3] }}<br>
+                                {% if unit[4] != 'Nil.' %}
+                                    <button type="button" class="btn btn-light prerequiste-btn btn-sm" data-bs-toggle="modal" data-bs-target="#prerequisiteModal" data-prerequisite="{{ unit[4] }}">
+                                        Prerequisites
+                                    </button>
+                                    <div class="modal fade" id="prerequisiteModal" tabindex="-1" aria-labelledby="prerequisiteModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="prerequisiteModalLabel">Prerequisite Details</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <!-- Prerequisite details will be inserted here -->
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> 
+                                    <br>
+                                {% endif %}
+                                <span>
+                                    {% if unit[5] == 1 %}Core Unit{% endif %}
+                                    / 6 points
+                                </span>
+                                <br>
+                                <span>
+                                    {% if unit[6] == 'true' %}Sem 1{% endif %}
+                                    {% if unit[6] == 'true' and unit[7] == 'true' %} / {% endif %}
+                                    {% if unit[7] == 'true' %}Sem 2{% endif %}
+                                </span>
+                                
+                            </td>
+                        {% endfor %}
+                        <!-- If unit_list is less than 4, fill it with empty td -->
+                        {% for _ in range(4 - unit_list|length) %}
+                            <td></td>
+                        {% endfor %}
+                        <td><button class="btn btn-dark add-unit-btn" onclick="addUnit(this)">Add Unit</button></td>
+                    </tr>
                 {% endfor %}
-                <!-- 如果unit_list不足4个，用空的td填充 -->
-                {% for _ in range(4 - unit_list|length) %}
-                    <td></td>
-                {% endfor %}
-                <td><button class="btn btn-primary add-unit-btn" onclick="addUnit(this)">Add Unit</button></td>
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
+                
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
 
 <script type="text/javascript">
     function addUnit(buttonElement) {
-        // 找到按钮所在的行
+        // Find the row where the button is located
         var row = buttonElement.parentElement.parentElement;
-        
-        // 创建并添加新的单元格
-        var newCell = row.insertCell(-2);  // 在倒数第二个位置插入单元格（即在按钮前）
+    
+        // Calculate the insertion position of the new cell
+        var insertPosition = row.cells.length - 1;
+    
+        //Create and add new cells
+        var newCell = row.insertCell(insertPosition);  
+        newCell.innerHTML = "New Unit";
+    }
+    var prerequisiteModal = document.getElementById('prerequisiteModal');
+
+    prerequisiteModal.addEventListener('show.bs.modal', function (event) {
+        // Button that triggered the modal
+        var button = event.relatedTarget;
+        // Extract info from data-* attributes
+        var prerequisite = button.getAttribute('data-prerequisite');
+        // Update the modal's content
+        var modalBody = prerequisiteModal.querySelector('.modal-body');
+        modalBody.textContent = prerequisite;
+    });
+
+    function addUnit(buttonElement) {
+        // Find the row where the button is located
+        var row = buttonElement.parentElement.parentElement;
+    
+        // Calculate the insertion position of the new cell
+        var insertPosition = row.cells.length - 1;
+    
+        // Create and add new cells
+        var newCell = row.insertCell(insertPosition);  
         newCell.innerHTML = "New Unit";
     }
 </script>
