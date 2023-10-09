@@ -341,3 +341,12 @@ body {
 #saveButton:hover {
     background-color: #ddd;
 }
+
+
+.row-container {
+    display: flex;
+    align-items: center;
+}
+.add-unit-btn {
+    margin-left: 20px;
+}

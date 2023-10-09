@@ -3,7 +3,7 @@ import sqlite3
 from flask import Flask, render_template, request, jsonify, redirect, url_for, session
 from wtforms import SelectMultipleField
 from app.forms import Majorform
-from app.database import getCourses, getMajors, getUnits
+from app.database import getCourses, getMajors, getUnits, process_units, process_duplicates
 
 def init_routes(app):
 
@@ -60,9 +60,11 @@ def init_routes(app):
 
     @app.route('/studyPlan', methods=['GET'])
     def studyPlan():
-        study_plan_data = session.get('study_plan_data')
-        # print(session.get('study_plan_data'))
-        # print(session.get('study_plan_structures'))
-        return render_template('studyPlan.html', active_page='studyPlan')
+        raw_data = session.get('study_plan_data')
+        #print(f"Raw Data: {raw_data}")  # 打印原始数据
+        processed_data = process_units(raw_data)
+        return render_template('studyPlan.html', units=processed_data)
+
+
 
 

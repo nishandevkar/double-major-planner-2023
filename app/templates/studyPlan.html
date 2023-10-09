@@ -2,100 +2,53 @@
 
 {% block content %}
 
-<div class="main-content">
-    <div id="plannerContainer">
-        <div class="title">Time Table Planner</div>
-    </div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Year/Sem</th>
+            <th>Unit 1</th>
+            <th>Unit 2</th>
+            <th>Unit 3</th>
+            <th>Unit 4</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for sem_level, unit_list in units.items() %}
+            <tr>
+                <td>{{ sem_level }}</td>
+                {% for unit in unit_list %}
+                    <td>
+                        <strong>{{ unit[0] }} - {{ unit[1] }}</strong><br> <!-- Code - Title -->
+                        Level: {{ unit[2] }}<br>
+                        Major: {{ unit[3] }}<br>
+                        {% if unit[4] != 'Nil.' %}Prerequisites: {{ unit[4] }}<br>{% endif %}
+                        {% if unit[5] == 1 %}Core Unit<br>{% endif %}Credits: 6 points<br>
+                        {% if unit[6] == 'true' %}Available in Sem 1<br>{% endif %}
+                        {% if unit[7] == 'true' %}Available in Sem 2<br>{% endif %}
+                    </td>
+                {% endfor %}
+                <!-- 如果unit_list不足4个，用空的td填充 -->
+                {% for _ in range(4 - unit_list|length) %}
+                    <td></td>
+                {% endfor %}
+                <td><button class="btn btn-primary add-unit-btn" onclick="addUnit(this)">Add Unit</button></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
 
-    <div id="filterContainer">
-        <input id="searchBar" type="text" placeholder="Search...">
-        <div class="filter-button" data-filter="filter1">Filter 1</div>
-        <div class="filter-button" data-filter="filter2">Filter 2</div>
-        <div class="filter-button" data-filter="filter3">Filter 3</div>
-        <div class="filter-button" data-filter="filter4">Filter 4</div>
-        <div class="filter-button" data-filter="filter5">Filter 5</div>
-    </div>
 
-    <div id="selectionContainer">
-        <div class="title">Elective Units</div>
-    </div>
-</div>
-
-<div id="saveButton" onclick="saveAsPDF()">Save as PDF</div>
-
-
-
-<script>
-// Placeholder function to fetch data from the database
-function fetchDataFromDatabase(year, semester) {
-    // TODO: Fetch the data from your database here
-    return [
-        { unitCode: `Placeholder-${year}-${semester}-1`, name: `Subject ${year}-${semester}-1`, semester: `${semester}`, creditPoint: "6", level: "1"},
-        { unitCode: `Placeholder-${year}-${semester}-2`, name: `Subject ${year}-${semester}-2`, semester: `${semester}`, creditPoint: "6", level: "2"},
-        { unitCode: `Placeholder-${year}-${semester}-3`, name: `Subject ${year}-${semester}-3`, semester: `${semester}`, creditPoint: "6", level: "3"},
-        { unitCode: `Placeholder-${year}-${semester}-4`, name: `Subject ${year}-${semester}-4`, semester: `${semester}`, creditPoint: "6", level: "4"},
-    ];
-}
-
-const plannerContainer = document.getElementById('plannerContainer');
-const selectionContainer = document.getElementById('selectionContainer');
-
-function createSemesterContainer(container, year, semester) {
-    const data = fetchDataFromDatabase(year, semester);
-    
-    const semesterDiv = document.createElement('div');
-    semesterDiv.className = 'semester-container';
-    
-    if (container === plannerContainer) {
-        const header = document.createElement('div');
-        header.className = 'header';
-        header.textContent = `Year ${year} Sem ${semester}`;
-        semesterDiv.appendChild(header);
+<script type="text/javascript">
+    function addUnit(buttonElement) {
+        // 找到按钮所在的行
+        var row = buttonElement.parentElement.parentElement;
+        
+        // 创建并添加新的单元格
+        var newCell = row.insertCell(-2);  // 在倒数第二个位置插入单元格（即在按钮前）
+        newCell.innerHTML = "New Unit";
     }
-
-    data.forEach(subject => {
-        const subjectDiv = document.createElement('div');
-        subjectDiv.className = 'subject-container';
-
-        const subjectContent = document.createElement('div');
-        subjectContent.className = 'subject-content';
-        subjectContent.innerHTML = `
-            ${subject.unitCode}: ${subject.name}<br>
-            Semester: ${subject.semester}<br>
-            Credit Point: ${subject.creditPoint}<br>
-            Level: ${subject.level}
-        `;
-
-        subjectDiv.appendChild(subjectContent);
-        semesterDiv.appendChild(subjectDiv);
-    });
-
-    container.appendChild(semesterDiv);
-}
-
-for (let year = 1; year <= 3; year++) {
-    for (let semester = 1; semester <= 2; semester++) {
-        createSemesterContainer(plannerContainer, year, semester);
-        if (year === 1 && semester <= 2) {
-            createSemesterContainer(selectionContainer, year, semester);
-        }
-    }
-}
-
-// Placeholder function for saving the page as PDF
-function saveAsPDF() {
-    // TODO: Implement saving logic using libraries like html2canvas and jsPDF
-    alert('Save as PDF functionality to be implemented.');
-}
-
-// Add event listeners to filter buttons
-const filterButtons = document.querySelectorAll(".filter-button");
-filterButtons.forEach(button => {
-    button.addEventListener('click', function() {
-        console.log(`Filter ${button.getAttribute('data-filter')} clicked`);
-        // TODO: Implement the filtering logic here
-    });
-});
-
 </script>
+
+
 {% endblock %}
