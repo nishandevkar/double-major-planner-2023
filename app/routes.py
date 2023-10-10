@@ -61,7 +61,7 @@ def init_routes(app):
     @app.route('/studyPlan', methods=['GET'])
     def studyPlan():
         raw_data = session.get('study_plan_data')
-        #print(f"Raw Data: {raw_data}")  # 打印原始数据
+        #print(f"Raw Data: {raw_data}")  # print raw data
         processed_data = process_units(raw_data)
         return render_template('studyPlan.html', units=processed_data)
 
