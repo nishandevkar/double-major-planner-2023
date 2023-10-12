@@ -1,5 +1,5 @@
 import sqlite3
-
+from app.database import filter_non_core_units
 from flask import Flask, render_template, request, jsonify, redirect, url_for, session
 from wtforms import SelectMultipleField
 from app.forms import Majorform
@@ -37,6 +37,7 @@ def init_routes(app):
         return render_template('selectMajor.html', active_page='selectMajor', majors=majors)
         #return render_template('base.html')
 
+
     @app.route('/submit_majors', methods=['GET', 'POST'])
     def submitMajors():
 
@@ -45,17 +46,34 @@ def init_routes(app):
 
         selected_majors.clear()
         selected_majors.extend(data.get('selected_majors', []))
-        # print('Selected Majors:', selected_majors)
-        # Respond with a success message
-        # response = {'message': 'Selected majors received successfully'}
-        # return jsonify(response)
-        rows,structures = getUnits(selected_majors)
+
+        # 将选择的专业保存到 session
+        session['selected_majors'] = selected_majors
+
+        #其他代码...
+        rows, structures = getUnits(selected_majors)
         session['study_plan_data'] = rows
         session['study_plan_structures'] = structures
-        # print(rows)
-        # return redirect(url_for('studyPlan'))
+
         response_data = {'redirect_url': '/studyPlan'}
         return jsonify(response_data)
+
+    
+    
+    @app.route('/result')
+    def result():
+        raw_data = session.get('study_plan_data')  # 获取 session 中的原始数据
+        selected_majors = session.get('selected_majors', [])  # 从 session 中获取专业
+    
+         # 使用 filter_non_core_units 函数过滤非核心单元
+        non_core_units = filter_non_core_units(raw_data)
+    
+        # 将非核心单元和已选专业作为变量传递给 result.html 模板
+        return render_template('result.html', majors=selected_majors, units=non_core_units)
+
+
+
+
 
 
     @app.route('/studyPlan', methods=['GET'])

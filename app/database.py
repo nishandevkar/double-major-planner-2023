@@ -3,6 +3,7 @@ import sqlite3
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine
+from collections import defaultdict
 
 def builddb(db):
 
@@ -162,6 +163,24 @@ def getUnits(selected_majors):
     structures = cursor.fetchall()
     conn.close()
     return processed_data, structures
+
+
+def filter_non_core_units(raw_data):
+    filtered_units = defaultdict(list)
+    for row in raw_data:
+        if row[5] == 0:  # 确保只选择非核心单元
+            semester_level = f"{row[2]} year Sem{row[6]}"
+            filtered_units[semester_level].append(row)
+    
+    print(f"Filtered non-core units: {dict(filtered_units)}")  # 打印过滤后的非核心单元数据
+    return dict(filtered_units)
+
+
+
+
+
+
+
 
 def ifvalid(selected_majors, units):
     conn = sqlite3.connect('./commerce_database_solution1_updated.sqlite')
