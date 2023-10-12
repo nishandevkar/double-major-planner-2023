@@ -136,14 +136,14 @@ def getUnits(selected_majors):
             THEN 'true'
         ELSE 'false'
     END AS sem2
-FROM 
-    unit_table, unit_with_major, level_table
-WHERE
-    (unit_with_major.major_name=? OR unit_with_major.major_name=? OR unit_with_major.major_name='Foundation') AND
-    unit_table.Code=unit_with_major.Code AND unit_table.grouping=level_table.id AND
-    unit_table.major=unit_with_major.major_id AND
-    ('1 Semester 2023' IN (Avail_1_Semester_Year, Avail_2_Semester_Year, Avail_3_Semester_Year, Avail_4_Semester_Year, Avail_5_Semester_Year, Avail_6_Semester_Year, Avail_7_Semester_Year) OR 
-    '2 Semester 2023' IN (Avail_1_Semester_Year, Avail_2_Semester_Year, Avail_3_Semester_Year, Avail_4_Semester_Year, Avail_5_Semester_Year, Avail_6_Semester_Year, Avail_7_Semester_Year));
+    FROM 
+        unit_table, unit_with_major, level_table
+    WHERE
+        (unit_with_major.major_name=? OR unit_with_major.major_name=? OR unit_with_major.major_name='Foundation') AND
+        unit_table.Code=unit_with_major.Code AND unit_table.grouping=level_table.id AND
+        unit_table.major=unit_with_major.major_id AND
+        ('1 Semester 2023' IN (Avail_1_Semester_Year, Avail_2_Semester_Year, Avail_3_Semester_Year, Avail_4_Semester_Year, Avail_5_Semester_Year, Avail_6_Semester_Year, Avail_7_Semester_Year) OR 
+        '2 Semester 2023' IN (Avail_1_Semester_Year, Avail_2_Semester_Year, Avail_3_Semester_Year, Avail_4_Semester_Year, Avail_5_Semester_Year, Avail_6_Semester_Year, Avail_7_Semester_Year));
     """
     cursor.execute(query, (selected_majors[0], selected_majors[1]))
     raw_data = cursor.fetchall()
@@ -163,10 +163,45 @@ WHERE
     conn.close()
     return processed_data, structures
 
-def ifvalid(db, majors, units):
+def ifvalid(selected_majors, units):
+    conn = sqlite3.connect('./commerce_database_solution1_updated.sqlite')
+    cursor = conn.cursor()
+    placeholders = ', '.join(['?'] * len(units))
+    query = """
+        SELECT
+            major_table.major_name,
+            unit_table.level,
+            count(*)
+        FROM
+            unit_table, major_table
+        WHERE
+            (major_table.major_name=? OR major_table.major_name=?) AND
+            unit_table.Code IN ({}) AND
+            unit_table.major=major_table.id
+        GROUP BY
+            major_name, unit_table.level
+        """.format(placeholders)
+    cursor.execute(query, (selected_majors[0], selected_majors[1], *units))
+    count = cursor.fetchall()
+    query = """
+            SELECT *
+            FROM major_table
+            WHERE major_table.major_name=? OR major_table.major_name=?
+        """
+    cursor.execute(query, (selected_majors[0], selected_majors[1]))
+    structures = cursor.fetchall()
+    conn.close()
+    print(count, structures)
     flag = True
-    ## TODO: Check if the units selection is valid.
-
-    ##
+    for cnt in count:
+        for struc in structures:
+            if cnt[0] == struc[1]:
+                print(cnt, struc)
+                if cnt[1] == 2:
+                    if cnt[2] < struc[3]:
+                        flag = False
+                elif cnt[1] == 3:
+                    if cnt[2] < struc[4]:
+                        flag = False
     return flag
 

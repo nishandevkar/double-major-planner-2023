@@ -3,7 +3,7 @@ import sqlite3
 from flask import Flask, render_template, request, jsonify, redirect, url_for, session
 from wtforms import SelectMultipleField
 from app.forms import Majorform
-from app.database import getCourses, getMajors, getUnits, process_units, process_duplicates
+from app.database import getCourses, getMajors, getUnits, process_units, process_duplicates, ifvalid
 
 def init_routes(app):
 
@@ -66,5 +66,12 @@ def init_routes(app):
         return render_template('studyPlan.html', units=processed_data)
 
 
+    @app.route('/ifValid', methods=['POST'])
+    def ifValid():
+        data = request.json
+        selected_majors = data.get('selected_majors','')
+        selected_units = data.get('selected_units','')
+        response = {'ifvalid': ifvalid(selected_majors, selected_units)}
+        return jsonify(response)
 
 
