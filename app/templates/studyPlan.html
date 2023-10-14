@@ -85,26 +85,30 @@
 
 <script type="text/javascript">
     function addUnit(buttonElement) {
-        // Find the row where the button is located
+        // Check if there is already a "New Unit" cell in the row
         var row = buttonElement.parentElement.parentElement;
-    
-        // Calculate the insertion position of the new cell
-        var insertPosition = row.cells.length - 1;
-    
-        // Create and add new cells
-        var newCell = row.insertCell(insertPosition);  
-        newCell.innerHTML = "New Unit";
+        var newUnitCell = row.querySelector(".new-unit-cell");
         
-        // Create a "Remove Unit" button for the new cell
-        var removeButton = document.createElement('button');
-        removeButton.className = 'btn btn-danger remove-unit-btn';
-        removeButton.textContent = '✖';
-        removeButton.onclick = function() {
-            removeUnit(this);
-        };
+        if (!newUnitCell) {
+            // Calculate the insertion position of the new cell
+            var insertPosition = row.cells.length - 1;
         
-        // Append the "Remove Unit" button to the new cell
-        newCell.appendChild(removeButton);
+            // Create and add a new cell for "New Unit"
+            var newCell = row.insertCell(insertPosition);  
+            newCell.innerHTML = "New Unit";
+            newCell.classList.add("new-unit-cell");
+            
+            // Create a "Remove Unit" button for the new cell
+            var removeButton = document.createElement('button');
+            removeButton.className = 'btn btn-danger remove-unit-btn';
+            removeButton.textContent = 'Remove Unit';
+            removeButton.onclick = function() {
+                removeUnit(this);
+            };
+            
+            // Append the "Remove Unit" button to the new cell
+            newCell.appendChild(removeButton);
+        }
     }
 
     function removeUnit(buttonElement) {
@@ -130,6 +134,7 @@
         modalBody.textContent = prerequisite;
     });
 </script>
+
 
 
 
