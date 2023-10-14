@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-5">
+            <!-- Display processed_data here -->
+            
+        </div>
+    <!-- ... rest of your code ... -->
+    
+        <div class="col-md-7 scroll-container">
+            <table class="table study-plan-container">
+                <thead>
+                    <tr>
+                        <th class="text-center" colspan="6">Study Plan</th>
+                    </tr>
+                </thead>
+                <tbody class="units-info">
+                    {% for sem_level, unit_list in units.items() %}
+                    <tr>
+                        <td>{{ sem_level }}</td>
+                        {% for unit in unit_list %}
+                            <td>
+                                <strong>{{ unit[0] }} - {{ unit[1] }}</strong><br> <!-- Code - Title -->
+                                Level {{ unit[2] }}<br>
+                                Major: {{ unit[3] }}<br>
+                                {% if unit[4] != 'Nil.' %}
+                                    <button type="button" class="btn btn-light prerequiste-btn btn-sm" data-bs-toggle="modal" data-bs-target="#prerequisiteModal" data-prerequisite="{{ unit[4] }}">
+                                        Prerequisites
+                                    </button>
+                                    <div class="modal fade" id="prerequisiteModal" tabindex="-1" aria-labelledby="prerequisiteModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="prerequisiteModalLabel">Prerequisite Details</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <!-- Prerequisite details will be inserted here -->
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> 
+                                    <br>
+                                {% endif %}
+                                <span>
+                                    {% if unit[5] == 1 %}Core Unit{% endif %}
+                                    / 6 points
+                                </span>
+                                <br>
+                                <span>
+                                    {% if unit[6] == 'true' %}Sem 1{% endif %}
+                                    {% if unit[6] == 'true' and unit[7] == 'true' %} / {% endif %}
+                                    {% if unit[7] == 'true' %}Sem 2{% endif %}
+                                </span>
+                                
+                            </td>
+                        {% endfor %}
+                        <!-- If unit_list is less than 4, fill it with empty td -->
+                        {% for _ in range(4 - unit_list|length) %}
+                            <td></td>
+                        {% endfor %}
+                        <!-- Modify the "Add Unit" button to include an ID and data attribute for the row -->
+                        <td>
+                            <button class="btn btn-dark add-unit-btn" data-row-id="{{ loop.index0 }}" onclick="addUnit(this)">Add Unit</button>
+                        </td>
+                        
+                        
+                        
+                        
+
+                    </tr>
+                {% endfor %}
+                
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    function addUnit(buttonElement) {
+        // Check if there is already a "New Unit" cell in the row
+        var row = buttonElement.parentElement.parentElement;
+        var newUnitCell = row.querySelector(".new-unit-cell");
+        
+        if (!newUnitCell) {
+            // Calculate the insertion position of the new cell
+            var insertPosition = row.cells.length - 1;
+        
+            // Create and add a new cell for "New Unit"
+            var newCell = row.insertCell(insertPosition);  
+            newCell.innerHTML = "New Unit";
+            newCell.classList.add("new-unit-cell");
+            
+            // Create a "Remove Unit" button for the new cell
+            var removeButton = document.createElement('button');
+            removeButton.className = 'btn btn-danger remove-unit-btn';
+            removeButton.textContent = '✖';
+            removeButton.onclick = function() {
+                removeUnit(this);
+            };
+            
+            // Append the "Remove Unit" button to the new cell
+            newCell.appendChild(removeButton);
+        }
+    }
+
+    function removeUnit(buttonElement) {
+        // Find the parent cell of the "Remove Unit" button
+        var cell = buttonElement.parentElement;
+
+        // Find the parent row of the cell
+        var row = cell.parentElement;
+        
+        // Remove the cell (which contains "New Unit" and the "Remove Unit" button)
+        row.removeChild(cell);
+    }
+
+    var prerequisiteModal = document.getElementById('prerequisiteModal');
+
+    prerequisiteModal.addEventListener('show.bs.modal', function (event) {
+        // Button that triggered the modal
+        var button = event.relatedTarget;
+        // Extract info from data-* attributes
+        var prerequisite = button.getAttribute('data-prerequisite');
+        // Update the modal's content
+        var modalBody = prerequisiteModal.querySelector('.modal-body');
+        modalBody.textContent = prerequisite;
+    });
+</script>
+
+
+
+
+
+
+{% endblock %}

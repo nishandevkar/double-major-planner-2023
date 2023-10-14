@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- selectCourse Page -->
+<!-- Main Content -->
+<div class="contents">
+    <div class="card">
+        <!-- Welcome Section -->
+        <section class="intro">
+            <h1>Welcome!</h1>
+            <p>Choose the Course you are in </p>
+        </section>
+
+        <!-- Major Overview and Planner Section -->
+        <section class="major-overview">
+            <!-- The major overview content goes here -->
+        </section>
+            <!-- Course List Section -->
+            <!-- <section class="courses">
+                <h2>Courses</h2> -->
+                <!-- Course Card Dropdown -->
+                <div class="course-card-dropdown">
+                    <button class="course-card-btn">Course List <i class="dropdown-icon">▼</i></button>
+                    <div class="course-card-options">
+                        {% for course in courses %}
+                        <a href="#" class="course-option">{{course}}</a>
+                        {% endfor %}
+                        <!-- Add more options as needed -->
+                    </div>
+                </div>
+            
+
+        <!-- Sidebar or Additional Information -->
+        <aside>
+            <!-- The content from the sidebar in the screenshot goes here -->
+        </aside>
+
+        <!-- Confirmation Button -->
+        <button class="confirm-btn" disabled>Confirm</button>
+    </div>
+</div>
+
+{% endblock %}

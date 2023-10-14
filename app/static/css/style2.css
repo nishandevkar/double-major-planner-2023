@@ -1,0 +1,387 @@
+/* Resetting some default styles */
+body, h1, h2, p, ul, li {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    background-color: #f5f5f5;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Header Styles */
+/* header {
+    background-color: #28348B;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+}
+
+
+
+nav ul {
+    display: flex;
+    gap: 1rem;
+    list-style-type: none;
+}
+
+nav ul li a {
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 15px;
+    color: #fff;
+    background-color: #D9D9D9;
+    transition: background-color 0.3s;
+}
+
+nav ul li a:hover {
+    background-color: #DEAD00;
+} */
+
+/* Main Content Styles */
+.contents {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* min-height: 100vh; */
+}
+
+.card {
+    align-items: center;
+    width: 75%;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 4rem;
+    margin: 2rem 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.intro {
+    margin-bottom: 3rem;
+}
+
+.intro h1 {
+    margin-bottom: 1rem;
+    font-size: 3rem;
+    color: #28348B;
+}
+
+.major-overview h2, .courses h2 {
+    font-size: 1.5rem;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+/* Card Styles for Courses */
+.course-card {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Course Card Dropdown Styles */
+.course-card-dropdown {
+    position: relative;
+    width: 75%; /* Adjust width as needed */
+    margin-bottom: 2rem;
+}
+
+.course-card-btn {
+    display: block;
+    width: 100%;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.course-card-btn:hover {
+    background-color: #f0f0f0;
+}
+
+.dropdown-icon {
+    float: right;
+}
+
+.course-card-options {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+}
+
+.course-option {
+    display: block;
+    padding: 1rem;
+    text-decoration: none;
+    background-color: #fff;
+    color: #333;
+    transition: background-color 0.3s;
+}
+
+.course-option:hover {
+    background-color: #f0f0f0;
+}
+
+
+.confirm-btn {
+    display: block;
+    width: 20%;
+    margin-top: 20px;
+    padding: 15px;
+    background-color: lightgray;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+@media (max-width: 768px) {
+    .confirm-btn {
+        padding: 8px; /* Further reduce padding for smaller screens */
+        font-size: 14px; /* Adjust font size for smaller screens */
+        width: max-content;
+    }
+}
+.confirm-btn:hover {
+    background-color: #DEAD00;
+}
+
+.confirm-btn:disabled {
+    background-color: #f0f0f0;
+    cursor: not-allowed;
+}
+
+
+/* select major */
+.major-title {
+    color: #28348B;
+}
+
+.majors-lst {
+    align-items: center;
+    width: 95%;
+}
+
+.majors {
+    width: 150px;
+    height: 100px;
+    border-color: #02020296;
+}
+
+.majors:hover {
+    background-color: #070707a0;
+    color: white;
+}
+
+/* .majors.active {
+    background-color: #050505d6;
+    color: white;
+} */
+
+.first-selected {
+    background-color: #28348B !important; 
+    color: white !important;
+}
+
+.second-selected {
+    background-color: #DEAD00 !important;
+    color: white !important;
+}
+
+.majors:disabled {
+    background-color: #d4d4d4;
+}
+
+
+#major1 {
+    background-color: #28348B;
+    padding: 1rem;
+    margin-left: 1rem;
+}
+
+#major2 {
+    background-color: #DEAD00;
+    padding: 1rem;
+    margin-left: 1rem;
+}
+
+.confirm-button {
+    background-color: lightgray;
+    align-items: center;
+    padding: 1rem;
+}
+
+.confirm-button:hover {
+    background-color: lightslategrey;
+    color: white;
+}
+/* .major-search {
+    background-color: #28348B;
+    
+} */
+
+/* studyPlan */
+body {
+    display: flex;
+    font-size: 16px;  /* Base font size */
+    flex-direction: column;  /* Align main content vertically */
+}
+
+.title {
+    text-align: center;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+.main-content {
+    display: flex;  /* Align main containers horizontally */
+}
+
+#plannerContainer, #selectionContainer {
+    flex: 1;
+    max-width: 400px;
+}
+
+.semester-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 20px;
+    padding: 10px;
+    border: 1px solid black;
+}
+
+#selectionContainer .semester-container {
+    border: none;  /* Remove border for the right side container */
+    margin: 20px 0;
+    padding: 0;
+}
+
+.subject-container {
+    flex: 1;
+    margin: 2.5px;
+    padding: 5px;
+    border: 1px solid black;
+    text-align: center;
+    position: relative;
+}
+
+.subject-container::before {
+    content: "";
+    display: block;
+    padding-top: 100%;  
+}
+
+.subject-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    font-size: calc(16px / 3);  /* Reduced font size */
+}
+
+.header {
+    font-weight: bold;
+    text-align: center;
+    margin-right: 10px;
+    flex-shrink: 0;
+}
+
+#filterContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+}
+
+#searchBar {
+    margin-bottom: 20px;
+    padding: 5px;
+}
+
+.filter-button {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid black;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.filter-button:hover {
+    background-color: #ddd;
+}
+
+#saveButton {
+    margin-top: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border: 1px solid black;
+    text-align: center;
+    align-self: center;
+}
+
+#saveButton:hover {
+    background-color: #ddd;
+}
+
+/* study plan  */
+.row-container {
+    display: flex;
+    align-items: center;
+}
+.add-unit-btn {
+    margin-left: 20px;
+}
+
+.scroll-container {
+    height: 100vh;
+    overflow-y: auto;
+    border-radius: 1rem;
+}
+
+.units-info {
+    font-size: 11px;
+}
+
+.prerequiste-btn {
+    font-size: 11px;
+}
+
+.study-plan-container {
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); /* Add a shadow effect */
+    padding: 20px; /* Add some padding for spacing */
+    background-color: #ffffff; /* Set a background color */
+    border-radius: 5px; /* Add rounded corners */
+    margin: 1rem;
+}
+
+.remove-unit-btn{
+    width: 35px;
+    height: 35px;
+}
+

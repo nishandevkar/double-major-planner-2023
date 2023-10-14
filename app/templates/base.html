@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}Double Major Study Planner</title>    
+    <!--link to the CSS file -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style2.css')}}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <img class="m-md-2" src="{{ url_for('static', filename='imgs/uwa_logo.png')}}" alt="Logo" width="150px" >
+        
+        <ul class="navbar-nav me-auto mb-md-0">
+            <li class="nav-item">
+                <a class="nav-link custom-capsule text-white fs-6 {{ 'active' if active_page == 'selectCourses' else '' }}" href="{{ url_for('selectCourses') }}" id="btn1">Choose Course</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link custom-capsule text-white fs-6 {{ 'active' if active_page == 'selectMajor' else '' }}" href="{{ url_for('selectMajor') }}" id="btn2">Choose Majors</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link custom-capsule text-white fs-6 {{ 'active' if active_page == 'studyPlan' else '' }}" href="{{ url_for('studyPlan') }}" id="btn3">Study Plan</a>
+            </li>
+        </ul> 
+        
+        <a href="{{ url_for('login') }}" class="btn btn-transparent text-white m-md-5 fs-6 ml-md-2">
+            <i class="bi bi-person-circle m-md-2"></i>
+            Log in
+        </a>
+    </nav>
+
+
+
+
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+    <div class="all_pages">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

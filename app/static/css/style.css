@@ -1,0 +1,70 @@
+/* base.html */
+.navbar {
+    background-color: #28348B;
+    width: 100%;
+    height: 60px;
+}
+
+.navbar-nav {
+    margin-top: 15px;
+    margin-left: 30px;
+    padding: 5px;
+}
+
+.nav-item {
+    margin-right: 3px;
+    width: 150px; 
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+} 
+
+/* .nav-item a {
+    font-weight: 500;
+    padding: 5px;
+}  */
+
+.custom-capsule {
+    border-radius: 10px; 
+    background-color: transparent;
+    transition: background-color 0.3s;
+}
+
+.custom-capsule:hover {
+    background-color: #59595a67;
+}
+.custom-capsule.active {
+    background-color: #DEAD00;
+}
+.btn-transparent {
+    background: transparent;
+    border: none;
+}
+
+/* login.html*/
+.blue-card {
+    background-color: rgba(34, 47, 129, 0.85);
+    border-radius: 20px;
+    padding: 2rem;
+    width: 55%;
+    height: 55%;
+}
+
+.login-container{
+    margin: 0 auto;
+    padding: 2rem;
+}
+.grey-card {
+    border-radius: 15px;
+    width: 75%;
+    height: 75%;
+}
+.login-help-text{
+    color: white;
+    font-size: small;
+    padding: 1rem;
+}
+.sign-in-title{
+    font-weight: bold;
+    padding: 8ßpx;
+}

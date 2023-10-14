@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- login page -->
+<div class="login-container d-flex justify-content-center align-items-center">
+    <div class="blue-card shadow d-flex flex-column justify-content-center align-items-center">    
+        
+        <h1 class="sign-in-title text-white text-center mb-5">Sign in</h1>
+
+        <div class="grey-card d-flex flex-column justify-content-center align-items-center p-4 bg-secondary bg-opacity-50 shadow">
+
+            <span class="login-help-text"><p>Login using your UWA credentials.</p></span>
+
+            <div class="input-group mb-5 w-75">
+                <span class="input-group-text bg-transparent text-white border-0" id="basic-addon1">
+                    <i class="bi bi-person fs-4"></i>
+                </span>
+                <input type="text" class="form-control rounded" placeholder="Student Email" aria-label="student email" aria-describedby="basic-addon1">
+            </div>
+        
+            <div class="input-group mb-5 w-75">
+                <span class="input-group-text bg-transparent text-white border-0" id="basic-addon2">
+                    <i class="bi bi-key fs-4"></i>
+                </span>
+                <input type="password" class="form-control rounded" placeholder="Password" aria-label="password" aria-describedby="basic-addon2">
+            </div>
+            
+            <!-- Sign in button -->
+            <button type="submit" class="btn login-btn btn-warning text-dark fs-5 fw-bold w-25 mt-3 rounded">Log in</button>
+        </div>
+            
+
+    </div>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Unit Display</title>
+    
+    <style>
+        .unit {
+            border: 1px solid black;
+            margin: 10px;
+            padding: 10px;
+            width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div id="unitContainer"></div>
+
+    <script>
+        // Function to fetch units from the server and create div elements
+        function fetchUnits() {
+            // Create a new XMLHttpRequest object
+            var xhr = new XMLHttpRequest();
+
+            // Configure it: GET-request for the URL /fetchUnits
+            xhr.open('GET', 'http://127.0.0.1:5000/fetchUnits', true);
+
+            // Set the callback for when the request is completed
+            xhr.onload = function() {
+                if (xhr.status == 200) { // if HTTP status is OK
+                    // Parse the JSON data
+                    var units = JSON.parse(xhr.responseText);
+
+                    // Get the container div
+                    var container = document.getElementById('unitContainer');
+
+                    // Iterate over the first four units and create a div for each
+                    for (var i = 0; i < 4; i++) {
+                        // Create a div for each unit
+                        var unitDiv = document.createElement('div');
+                        unitDiv.className = 'unit';
+                        unitDiv.innerHTML = `
+                            <p>Code: ${units[i][0]}</p>
+                            <p>Title: ${units[i][1]}</p>
+                            <p>Level: ${units[i][2]}</p>
+                            <p>Credit: ${units[i][3]}</p>
+                        `;
+
+                        // Append the unit div to the container
+                        container.appendChild(unitDiv);
+                    }
+                }
+            };
+
+            // Send the request to the server
+            xhr.send();
+        }
+
+        // Call the function when the window has finished loading
+        window.onload = fetchUnits;
+    </script>
+</body>
+</html>
