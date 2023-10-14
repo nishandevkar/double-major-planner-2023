@@ -156,6 +156,13 @@ nav ul li a:hover {
     transition: background-color 0.3s;
 }
 
+@media (max-width: 768px) {
+    .confirm-btn {
+        padding: 8px; /* Further reduce padding for smaller screens */
+        font-size: 14px; /* Adjust font size for smaller screens */
+        width: max-content;
+    }
+}
 .confirm-btn:hover {
     background-color: #DEAD00;
 }
@@ -354,6 +361,7 @@ body {
 .scroll-container {
     height: 100vh;
     overflow-y: auto;
+    border-radius: 1rem;
 }
 
 .units-info {
@@ -363,3 +371,17 @@ body {
 .prerequiste-btn {
     font-size: 11px;
 }
+
+.study-plan-container {
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); /* Add a shadow effect */
+    padding: 20px; /* Add some padding for spacing */
+    background-color: #ffffff; /* Set a background color */
+    border-radius: 5px; /* Add rounded corners */
+    margin: 1rem;
+}
+
+.remove-unit-btn{
+    width: 35px;
+    height: 35px;
+}
+

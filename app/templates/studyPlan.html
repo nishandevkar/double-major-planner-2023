@@ -10,7 +10,7 @@
     <!-- ... rest of your code ... -->
     
         <div class="col-md-7 scroll-container">
-            <table class="table">
+            <table class="table study-plan-container">
                 <thead>
                     <tr>
                         <th class="text-center" colspan="6">Study Plan</th>
@@ -64,7 +64,15 @@
                         {% for _ in range(4 - unit_list|length) %}
                             <td></td>
                         {% endfor %}
-                        <td><button class="btn btn-dark add-unit-btn" onclick="addUnit(this)">Add Unit</button></td>
+                        <!-- Modify the "Add Unit" button to include an ID and data attribute for the row -->
+                        <td>
+                            <button class="btn btn-dark add-unit-btn" data-row-id="{{ loop.index0 }}" onclick="addUnit(this)">Add Unit</button>
+                        </td>
+                        
+                        
+                        
+                        
+
                     </tr>
                 {% endfor %}
                 
@@ -77,16 +85,43 @@
 
 <script type="text/javascript">
     function addUnit(buttonElement) {
-        // Find the row where the button is located
+        // Check if there is already a "New Unit" cell in the row
         var row = buttonElement.parentElement.parentElement;
-    
-        // Calculate the insertion position of the new cell
-        var insertPosition = row.cells.length - 1;
-    
-        //Create and add new cells
-        var newCell = row.insertCell(insertPosition);  
-        newCell.innerHTML = "New Unit";
+        var newUnitCell = row.querySelector(".new-unit-cell");
+        
+        if (!newUnitCell) {
+            // Calculate the insertion position of the new cell
+            var insertPosition = row.cells.length - 1;
+        
+            // Create and add a new cell for "New Unit"
+            var newCell = row.insertCell(insertPosition);  
+            newCell.innerHTML = "New Unit";
+            newCell.classList.add("new-unit-cell");
+            
+            // Create a "Remove Unit" button for the new cell
+            var removeButton = document.createElement('button');
+            removeButton.className = 'btn btn-danger remove-unit-btn';
+            removeButton.textContent = '✖';
+            removeButton.onclick = function() {
+                removeUnit(this);
+            };
+            
+            // Append the "Remove Unit" button to the new cell
+            newCell.appendChild(removeButton);
+        }
     }
+
+    function removeUnit(buttonElement) {
+        // Find the parent cell of the "Remove Unit" button
+        var cell = buttonElement.parentElement;
+
+        // Find the parent row of the cell
+        var row = cell.parentElement;
+        
+        // Remove the cell (which contains "New Unit" and the "Remove Unit" button)
+        row.removeChild(cell);
+    }
+
     var prerequisiteModal = document.getElementById('prerequisiteModal');
 
     prerequisiteModal.addEventListener('show.bs.modal', function (event) {
@@ -98,19 +133,11 @@
         var modalBody = prerequisiteModal.querySelector('.modal-body');
         modalBody.textContent = prerequisite;
     });
-
-    function addUnit(buttonElement) {
-        // Find the row where the button is located
-        var row = buttonElement.parentElement.parentElement;
-    
-        // Calculate the insertion position of the new cell
-        var insertPosition = row.cells.length - 1;
-    
-        // Create and add new cells
-        var newCell = row.insertCell(insertPosition);  
-        newCell.innerHTML = "New Unit";
-    }
 </script>
+
+
+
+
 
 
 {% endblock %}

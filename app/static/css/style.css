@@ -19,10 +19,10 @@
     justify-content: center;
 } 
 
-.nav-item a {
+/* .nav-item a {
     font-weight: 500;
     padding: 5px;
-} 
+}  */
 
 .custom-capsule {
     border-radius: 10px; 
@@ -36,7 +36,6 @@
 .custom-capsule.active {
     background-color: #DEAD00;
 }
-
 .btn-transparent {
     background: transparent;
     border: none;
