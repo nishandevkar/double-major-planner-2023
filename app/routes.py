@@ -58,12 +58,12 @@ def init_routes(app):
         return jsonify(response_data)
 
 
-    @app.route('/studyPlan', methods=['GET'])
+    @app.route('/studyPlan', methods=['GET' , 'POST'])
     def studyPlan():
         raw_data = session.get('study_plan_data')
         #print(f"Raw Data: {raw_data}")  # print raw data
         processed_data = process_units(raw_data)
-        return render_template('studyPlan.html', units=processed_data)
+        return render_template('studyPlan.html', active_page='studyPlan', units=processed_data)
 
 
     @app.route('/ifValid', methods=['POST'])
