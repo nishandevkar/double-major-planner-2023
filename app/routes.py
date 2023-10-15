@@ -78,7 +78,7 @@ def init_routes(app):
             units=processed_core_units,  # Corrected the variable name here
             non_core_units=organized_non_core_units,  # Passed the organized non-core units
             majors=selected_majors
-
+        )
 
     @app.route('/ifValid', methods=['POST'])
     def ifValid():
