@@ -300,6 +300,11 @@
     overflow: auto; /* Add scrollbar if content is too big */
 }
 
+.unit-card.disabled {
+    color: #999;
+    cursor: not-allowed;
+}
+
 .unit-card h3 {
     font-size: 0.8em; /* Adjust title font size */
     margin-bottom: 10px; /* Space below the title */

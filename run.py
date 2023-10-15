@@ -1,23 +1,7 @@
 from app import app
-import sqlite3
+from flask import Flask, render_template
 
-app.run(debug=True)
-
-def fetch_data_from_unit():
-
-    conn = sqlite3.connect('./majors_database.db')
-
-    cursor = conn.cursor()
-    
-
-    cursor.execute('SELECT * FROM Unit')
-    
-    rows = cursor.fetchall()
-    
- 
-    conn.close()
-    
-    return rows
+app.jinja_env.globals.update(enumerate=enumerate)
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)

@@ -39,22 +39,24 @@ def init_routes(app):
 
     @app.route('/submit_majors', methods=['GET', 'POST'])
     def submitMajors():
-
         selected_majors = []
         data = request.json
 
         selected_majors.clear()
         selected_majors.extend(data.get('selected_majors', []))
-        # print('Selected Majors:', selected_majors)
-        # Respond with a success message
-        # response = {'message': 'Selected majors received successfully'}
-        # return jsonify(response)
-        rows,structures = getUnits(selected_majors)
-        session['study_plan_data'] = rows
-        session['study_plan_structures'] = structures
-        # print(rows)
-        # return redirect(url_for('studyPlan'))
-        response_data = {'redirect_url': '/studyPlan'}
+
+        # Ensure selected_majors is not None or empty
+        if selected_majors:
+            session['selected_majors'] = selected_majors
+            rows,structures = getUnits(selected_majors)
+            session['study_plan_data'] = rows
+            session['study_plan_structures'] = structures
+            response_data = {'redirect_url': '/studyPlan'}
+        else:
+            # Handle the case where selected_majors is None or empty
+            # Maybe return an error message in the response or redirect to a different page
+            response_data = {'error': 'No majors selected'}
+
         return jsonify(response_data)
 
 
@@ -73,6 +75,7 @@ def init_routes(app):
         print(organized_non_core_units)
     
     # Render the template with the organized data
+        print(selected_majors)
         return render_template(
             'studyPlan.html', 
             units=processed_core_units,  # Corrected the variable name here

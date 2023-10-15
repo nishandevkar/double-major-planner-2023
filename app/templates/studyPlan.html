@@ -30,11 +30,20 @@
             <button class="filter-btn level-btn" onclick="filterUnits('level', '3')">Level 3</button>
             <button class="filter-btn level-btn" onclick="filterUnits('level', 'all')">Show All</button>
 
-            <div class="units-container row d-flex flex-wrap">
-                {% for sem, units in non_core_units.items() %}
-                    {% for unit in units %}
+            <div class="units-container row d-flex flex-wrap" ondragover="allowDrop(event)" ondrop="drop(event)"> 
+                {% for s_idx, (sem, units) in enumerate(non_core_units.items()) %}
+                    {% for u_idx, unit in enumerate(units) %}
                         <div class="col-md-4 mb-4"> 
-                            <div class="unit-card" data-major="{{ unit[3] }}" data-level="{{ unit[2] }}" data-sem1="{{ unit[6] }}" data-sem2="{{ unit[7] }}">
+                            <div class="unit-card unit" 
+                                 id="unit-{{ s_idx }}-{{ u_idx }}" 
+                                 draggable="true" 
+                                 ondragstart="dragStart(event)" 
+                                 data-unit-name="{{ unit[0] }}" 
+                                 data-unit-type="{{ 'optional' if unit[5] == 0 else 'core' }}" 
+                                 data-major="{{ unit[3] }}" 
+                                 data-level="{{ unit[2] }}" 
+                                 data-sem1="{{ unit[6] }}" 
+                                 data-sem2="{{ unit[7] }}">
                                 <h3>{{ unit[0] }} - {{ unit[1] }}</h3>
                                 <p>Level {{ unit[2] }}</p>
                                 <p>Major: {{ unit[3] }}</p>
@@ -48,6 +57,7 @@
                     {% endfor %}
                 {% endfor %}
             </div>
+            
 
 
                         
@@ -61,7 +71,7 @@
                         <th class="text-center" colspan="6">Study Plan</th>
                     </tr>
                 </thead>
-                <tbody class="units-info">
+                <tbody class="units-info" id="studyPlan">
                     {% for sem_level, unit_list in units.items() %}
                     <tr>
                         <td>{{ sem_level }}</td>
@@ -107,7 +117,7 @@
                         {% endfor %}
                         <!-- If unit_list is less than 4, fill it with empty td -->
                         {% for _ in range(4 - unit_list|length) %}
-                            <td></td>
+                            <td ondragover="allowDrop(event)" ondrop="drop(event)" class="dropzone"></td>
                         {% endfor %}
                         <!-- Modify the "Add Unit" button to include an ID and data attribute for the row -->
                         <td>
@@ -213,6 +223,57 @@
         document.getElementById('prereqText').innerText = prereqs || 'No prerequisites';
         document.getElementById('prereqModal').style.display = 'block';
     }
+
+
+   
+    function dragStart(event) {
+        console.log("Drag Start Triggered");
+        draggedElement = event.target;
+        event.dataTransfer.setData("text/plain", draggedElement.id);
+        console.log("Dragging Element ID: " + draggedElement.id);
+    }
+    
+    
+    function allowDrop(event) {
+        console.log("Drag Over Triggered");
+        event.preventDefault();  // This is necessary to allow dropping
+    }
+    
+    function drop(event) {
+        event.preventDefault();
+        event.stopPropagation();
+    
+        const id = event.dataTransfer.getData("text/plain");
+        const draggedElement = document.getElementById(id);
+    
+        let dropTarget = event.target.closest(".dropzone"); 
+    
+        if (!dropTarget) {
+            console.log("Invalid dropzone.");
+            return;
+        }
+    
+        // 如果draggedElement或其父元素不在studyPlan内，我们需要复制它并禁用原始元素。
+        // 否则，我们只需要移动它。
+        const isAlreadyInStudyPlan = draggedElement.closest("#studyPlan");
+        
+        if (!isAlreadyInStudyPlan) {
+            const clone = draggedElement.cloneNode(true);
+            clone.id = "clone_" + new Date().getTime();
+            dropTarget.appendChild(clone);
+            draggedElement.draggable = false;
+            draggedElement.classList.add('disabled');
+        } else {
+            dropTarget.appendChild(draggedElement);
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
 </script>
 
 
