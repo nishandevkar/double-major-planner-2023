@@ -1,10 +1,139 @@
 {% extends "base.html" %}
 
 {% block content %}
+<style>
+    .unit-card {
+        border: 1px solid #000;
+        padding: 10px; /* Updated padding */
+        margin: 20px;
+        width: 150px; /* Fixed width */
+        height: 150px; /* Fixed height */
+        box-sizing: border-box;
+        float: left;
+        font-size: 0.7em; /* Updated font size */
+        overflow: auto; /* Add scrollbar if content is too big */
+    }
+
+    .unit-card h3 {
+        font-size: 0.8em; /* Adjust title font size */
+        margin-bottom: 10px; /* Space below the title */
+    }
+
+    .unit-card p {
+        margin: 5px 0; /* Space between paragraphs */
+    }
+
+
+    .units-container::after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+    button {
+        margin: 10px;
+    }
+
+    .selected {
+        background-color: blue;
+        color: white;
+    }
+
+    #prereqModal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        padding-top: 100px;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgb(0,0,0);
+        background-color: rgba(0,0,0,0.4);
+    }
+
+    #modalContent {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+    }
+
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+
+
+
+</style>
 <div class="container-fluid">
     <div class="row">
+        <div class="col-md-5">
+            <!-- Prerequisites Modal -->
+<div id="prereqModal">
+    <div id="modalContent">
+        <span class="close" onclick="document.getElementById('prereqModal').style.display='none'">&times;</span>
+        <p id="prereqText"></p>
+    </div>
+</div>
+
+<h2>Selected Majors:</h2>
+<ul>
+{% for major in majors %}
+    <li><button class="filter-btn major-btn" onclick="filterUnits('major', '{{ major }}')">{{ major }}</button></li>
+{% endfor %}
+</ul>
+
+<h2>Semesters:</h2>
+<button class="filter-btn semester-btn" onclick="filterUnits('semester', 'sem1')">Semester 1</button>
+<button class="filter-btn semester-btn" onclick="filterUnits('semester', 'sem2')">Semester 2</button>
+<button class="filter-btn semester-btn" onclick="filterUnits('semester', 'all')">Show All</button>
+
+<h2>Levels:</h2>
+<button class="filter-btn level-btn" onclick="filterUnits('level', '1')">Level 1</button>
+<button class="filter-btn level-btn" onclick="filterUnits('level', '2')">Level 2</button>
+<button class="filter-btn level-btn" onclick="filterUnits('level', '3')">Level 3</button>
+<button class="filter-btn level-btn" onclick="filterUnits('level', 'all')">Show All</button>
+
+<div class="units-container row d-flex flex-wrap">
+    {% for sem, units in non_core_units.items() %}
+        {% for unit in units %}
+            <div class="col-md-4 mb-4"> 
+                <div class="unit-card" data-major="{{ unit[3] }}" data-level="{{ unit[2] }}" data-sem1="{{ unit[6] }}" data-sem2="{{ unit[7] }}">
+                    <h3>{{ unit[0] }} - {{ unit[1] }}</h3>
+                    <p>Level {{ unit[2] }}</p>
+                    <p>Major: {{ unit[3] }}</p>
+                    <p>{{ 'Optional Unit' if unit[5] == 0 else 'Core Unit' }} / 6 points</p>
+                    <p>{{ 'Sem 1' if unit[6] == 'true' else '' }} {{ 'Sem 2' if unit[7] == 'true' else '' }}</p>
+                    {% if unit[4] %}
+                        <button class="btn btn-primary" onclick="showPrereqs('{{ unit[4] }}')">Prerequisites</button>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    {% endfor %}
+</div>
+
+
+            
+        </div>
+
+    
         <div class="col-md-7 scroll-container">
-            <table class="table">
+            <table class="table study-plan-container">
                 <thead>
                     <tr>
                         <th class="text-center" colspan="6">Study Plan</th>
@@ -58,7 +187,15 @@
                         {% for _ in range(4 - unit_list|length) %}
                             <td></td>
                         {% endfor %}
-                        <td><button class="btn btn-dark add-unit-btn" onclick="addUnit(this)">Add Unit</button></td>
+                        <!-- Modify the "Add Unit" button to include an ID and data attribute for the row -->
+                        <td>
+                            <button class="btn btn-dark add-unit-btn" data-row-id="{{ loop.index0 }}" onclick="addUnit(this)">Add Unit</button>
+                        </td>
+                        
+                        
+                        
+                        
+
                     </tr>
                 {% endfor %}
                 
@@ -71,16 +208,43 @@
 
 <script type="text/javascript">
     function addUnit(buttonElement) {
-        // Find the row where the button is located
+        // Check if there is already a "New Unit" cell in the row
         var row = buttonElement.parentElement.parentElement;
-    
-        // Calculate the insertion position of the new cell
-        var insertPosition = row.cells.length - 1;
-    
-        //Create and add new cells
-        var newCell = row.insertCell(insertPosition);  
-        newCell.innerHTML = "New Unit";
+        var newUnitCell = row.querySelector(".new-unit-cell");
+        
+        if (!newUnitCell) {
+            // Calculate the insertion position of the new cell
+            var insertPosition = row.cells.length - 1;
+        
+            // Create and add a new cell for "New Unit"
+            var newCell = row.insertCell(insertPosition);  
+            newCell.innerHTML = "New Unit";
+            newCell.classList.add("new-unit-cell");
+            
+            // Create a "Remove Unit" button for the new cell
+            var removeButton = document.createElement('button');
+            removeButton.className = 'btn btn-danger remove-unit-btn';
+            removeButton.textContent = '✖';
+            removeButton.onclick = function() {
+                removeUnit(this);
+            };
+            
+            // Append the "Remove Unit" button to the new cell
+            newCell.appendChild(removeButton);
+        }
     }
+
+    function removeUnit(buttonElement) {
+        // Find the parent cell of the "Remove Unit" button
+        var cell = buttonElement.parentElement;
+
+        // Find the parent row of the cell
+        var row = cell.parentElement;
+        
+        // Remove the cell (which contains "New Unit" and the "Remove Unit" button)
+        row.removeChild(cell);
+    }
+
     var prerequisiteModal = document.getElementById('prerequisiteModal');
 
     prerequisiteModal.addEventListener('show.bs.modal', function (event) {
@@ -92,22 +256,44 @@
         var modalBody = prerequisiteModal.querySelector('.modal-body');
         modalBody.textContent = prerequisite;
     });
+</script>
 
-    function addUnit(buttonElement) {
-        // Find the row where the button is located
-        var row = buttonElement.parentElement.parentElement;
+<script>
+    var selectedMajor = 'all';
+    var selectedSemester = 'all';
+    var selectedLevel = 'all';
     
-        // Calculate the insertion position of the new cell
-        var insertPosition = row.cells.length - 1;
+    function filterUnits(filterType, value) {
+        document.querySelectorAll('.filter-btn.' + filterType + '-btn').forEach(btn => btn.classList.remove('selected'));
+        event.target.classList.add('selected');
     
-        // Create and add new cells
-        var newCell = row.insertCell(insertPosition);  
-        newCell.innerHTML = "New Unit";
+        if (filterType === 'major') {
+            selectedMajor = value;
+        } else if (filterType === 'semester') {
+            selectedSemester = value;
+        } else if (filterType === 'level') {
+            selectedLevel = value;
+        }
+    
+        var units = document.querySelectorAll('.unit-card');
+        units.forEach(function(unit) {
+            var majorMatch = (unit.getAttribute('data-major') === selectedMajor || selectedMajor === 'all');
+            var semMatch = (selectedSemester === 'all' || unit.getAttribute('data-' + selectedSemester) === 'true');
+            var levelMatch = (unit.getAttribute('data-level') === selectedLevel || selectedLevel === 'all');
+    
+            if (majorMatch && semMatch && levelMatch) {
+                unit.parentElement.style.display = 'block'; 
+            } else {
+                unit.parentElement.style.display = 'none'; 
+            }
+        });
+    }
+    
+    function showPrereqs(prereqs) {
+        document.getElementById('prereqText').innerText = prereqs || 'No prerequisites';
+        document.getElementById('prereqModal').style.display = 'block';
     }
 </script>
 
-<a href="/result">
-    <button>Go to Result Page</button>
-</a>
 
 {% endblock %}

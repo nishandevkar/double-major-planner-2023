@@ -146,6 +146,42 @@ function showPrereqs(prereqs) {
     document.getElementById('prereqText').innerText = prereqs || 'No prerequisites';
     document.getElementById('prereqModal').style.display = 'block';
 }
+
+var selectedMajor = 'all';
+var selectedSemester = 'all';
+var selectedLevel = 'all';
+
+function filterUnits(filterType, value) {
+    document.querySelectorAll('.filter-btn.' + filterType + '-btn').forEach(btn => btn.classList.remove('selected'));
+    event.target.classList.add('selected');
+
+    if (filterType === 'major') {
+        selectedMajor = value;
+    } else if (filterType === 'semester') {
+        selectedSemester = value;
+    } else if (filterType === 'level') {
+        selectedLevel = value;
+    }
+
+    var units = document.querySelectorAll('.unit-card');
+    units.forEach(function(unit) {
+        var majorMatch = (unit.getAttribute('data-major') === selectedMajor || selectedMajor === 'all');
+        var semMatch = (selectedSemester === 'all' || unit.getAttribute('data-' + selectedSemester) === 'true');
+        var levelMatch = (unit.getAttribute('data-level') === selectedLevel || selectedLevel === 'all');
+
+        if (majorMatch && semMatch && levelMatch) {
+            unit.style.display = 'block';
+        } else {
+            unit.style.display = 'none';
+        }
+    });
+}
+
+function showPrereqs(prereqs) {
+    document.getElementById('prereqText').innerText = prereqs || 'No prerequisites';
+    document.getElementById('prereqModal').style.display = 'block';
+}
+
 </script>
 
 </body>

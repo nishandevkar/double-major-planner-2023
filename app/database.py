@@ -168,18 +168,22 @@ def getUnits(selected_majors):
 def filter_non_core_units(raw_data):
     filtered_units = defaultdict(list)
     for row in raw_data:
-        if row[5] == 0:  # 确保只选择非核心单元
+        if row[5] == 0:  #non core data
             semester_level = f"{row[2]} year Sem{row[6]}"
             filtered_units[semester_level].append(row)
     
-    print(f"Filtered non-core units: {dict(filtered_units)}")  # 打印过滤后的非核心单元数据
+    print(f"Filtered non-core units: {dict(filtered_units)}")  
     return dict(filtered_units)
 
 
-
-
-
-
+def organize_non_core_units(non_core_units_raw):
+    organized_units = {'All': []}
+    
+    for units in non_core_units_raw.values():
+        for unit in units:
+            organized_units['All'].append(unit)
+            
+    return organized_units
 
 
 def ifvalid(selected_majors, units):
