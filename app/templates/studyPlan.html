@@ -3,7 +3,7 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-5">
+        <div class="col-md-5 scroll-container">
             <!-- Prerequisites Modal -->
             <div id="prereqModal">
                 <div id="modalContent">
@@ -179,18 +179,6 @@
         modalBody.textContent = prerequisite;
     });
 
-
-    function addUnit(buttonElement) {
-        // Find the row where the button is located
-        var row = buttonElement.parentElement.parentElement;
-    
-        // Calculate the insertion position of the new cell
-        var insertPosition = row.cells.length - 1;
-    
-        // Create and add new cells
-        var newCell = row.insertCell(insertPosition);  
-        newCell.innerHTML = "New Unit";
-    }
     var selectedMajor = 'all';
     var selectedSemester = 'all';
     var selectedLevel = 'all';
