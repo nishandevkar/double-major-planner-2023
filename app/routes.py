@@ -3,7 +3,7 @@ import sqlite3
 from flask import Flask, render_template, request, jsonify, redirect, url_for, session
 from wtforms import SelectMultipleField
 from app.forms import Majorform
-from app.database import getCourses, getMajors, getUnits, process_units, process_duplicates, ifvalid
+from app.database import getCourses, getMajors, getUnits, process_units, process_duplicates, ifvalid, filter_non_core_units, organize_non_core_units
 
 def init_routes(app):
 
@@ -58,12 +58,26 @@ def init_routes(app):
         return jsonify(response_data)
 
 
-    @app.route('/studyPlan', methods=['GET' , 'POST'])
+    @app.route('/studyPlan', methods=['GET'])
     def studyPlan():
         raw_data = session.get('study_plan_data')
-        #print(f"Raw Data: {raw_data}")  # print raw data
-        processed_data = process_units(raw_data)
-        return render_template('studyPlan.html', active_page='studyPlan', units=processed_data)
+        selected_majors = session.get('selected_majors')  
+    
+    # Process and organize core units
+        processed_core_units = process_units(raw_data)
+    
+    # Process and organize non-core units
+        non_core_units_raw = filter_non_core_units(raw_data)
+        organized_non_core_units = organize_non_core_units(non_core_units_raw)
+
+        print(organized_non_core_units)
+    
+    # Render the template with the organized data
+        return render_template(
+            'studyPlan.html', 
+            units=processed_core_units,  # Corrected the variable name here
+            non_core_units=organized_non_core_units,  # Passed the organized non-core units
+            majors=selected_majors
 
 
     @app.route('/ifValid', methods=['POST'])
