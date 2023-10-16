@@ -307,10 +307,17 @@
     color: white;
 }
 
+.unit-card {
+    border: solid 1px #333;
+    border-radius: 10px;
+    background-color: #343c77;
+    color: #ccc;
+}
 
 .unit-card.disabled {
     color: #999;
     cursor: not-allowed;
+    background-color: white;
 }
 
 .unit-card strong {
@@ -380,11 +387,15 @@
     border: 1px solid #ddd;
     padding: 5px;
     overflow: hidden;
+    background-color: #dcad04;
+    color: white;
+    border-radius: 10px;
 }
 
 .unit-card {
     position: relative;
 }
+
 .btn-delete-unit {
     background-color: rgb(148, 4, 4);
     color: white;

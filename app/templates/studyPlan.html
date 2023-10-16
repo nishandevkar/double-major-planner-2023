@@ -41,30 +41,26 @@
                                 <button type="button" class="btn btn-light prerequiste-btn btn-sm" data-bs-toggle="modal" data-bs-target="#prerequisiteModalLeft-{{ s_idx }}-{{ u_idx }}">
                                     Prerequisites
                                 </button>
-                                <!-- Prerequisites Modal -->
-                                <div class="modal fade" id="prerequisiteModalLeft-{{ s_idx }}-{{ u_idx }}" tabindex="-1" aria-labelledby="prerequisiteModalLabelLeft-{{ s_idx }}-{{ u_idx }}" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="prerequisiteModalLabelLeft-{{ s_idx }}-{{ u_idx }}">Prerequisite Details</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                {{ unit[4] }}
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                            </div>
+                               
+                                <p>{{ 'Optional Unit' if unit[5] == 0 else 'Core Unit' }} / 6 points</p>
+                                <p>{{ 'Sem 1' if unit[6] == 'true' else '' }} {{ 'Sem 2' if unit[7] == 'true' else '' }}</p>
+                            </div>
+                             <!-- Prerequisites Modal -->
+                             <div class="modal fade" id="prerequisiteModalLeft-{{ s_idx }}-{{ u_idx }}" tabindex="-1" aria-labelledby="prerequisiteModalLabelLeft-{{ s_idx }}-{{ u_idx }}" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="prerequisiteModalLabelLeft-{{ s_idx }}-{{ u_idx }}">Prerequisite Details</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            {{ unit[4] }}
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                         </div>
                                     </div>
                                 </div>
-                                <p>{{ 'Optional Unit' if unit[5] == 0 else 'Core Unit' }} / 6 points</p>
-                                <p>{{ 'Sem 1' if unit[6] == 'true' else '' }} {{ 'Sem 2' if unit[7] == 'true' else '' }}</p>
-                                
-                                
-
-                                
-
                             </div>
                         </div>
                     {% endfor %}
@@ -98,24 +94,8 @@
                                         <button type="button" class="btn btn-light prerequiste-btn btn-sm" data-bs-toggle="modal" data-bs-target="#prerequisiteModal" data-prerequisite="{{ unit[4] }}">
                                             Prerequisites
                                         </button>
-                                        <div class="modal fade" id="prerequisiteModal" tabindex="-1" aria-labelledby="prerequisiteModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="prerequisiteModalLabel">Prerequisite Details</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <!-- Prerequisite details will be inserted here -->
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div> 
-                                        <br>
                                     {% endif %}
+                                    <br>
                                     <span>
                                         {% if unit[5] == 1 %}Core Unit{% endif %}
                                         / 6 points
@@ -127,6 +107,23 @@
                                         {% if unit[7] == 'true' %}Sem 2{% endif %}
                                     </span>
                                 </div>
+                                <div class="modal fade" id="prerequisiteModal" tabindex="-1" aria-labelledby="prerequisiteModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="prerequisiteModalLabel">Prerequisite Details</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <!-- Prerequisite details will be inserted here -->
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> 
+                                <br>
                             </td>
                         {% endfor %}
                         <!-- If unit_list is less than 4, fill it with empty td -->
