@@ -24,8 +24,8 @@
             <div class="units-container row d-flex flex-wrap" ondragover="allowDrop(event)" ondrop="drop(event)"> 
                 {% for s_idx, (sem, units) in enumerate(non_core_units.items()) %}
                     {% for u_idx, unit in enumerate(units) %}
-                        <div class="col-md-4 mb-3"> 
-                            <div class="unit-card unit-container left-side" 
+                        <div class="col-md-4 mb-3 left-side"> 
+                            <div class="unit-card unit-container" 
                                  id="unit-{{ s_idx }}-{{ u_idx }}" 
                                  draggable="true" 
                                  ondragstart="dragStart(event)" 
@@ -234,7 +234,7 @@
             selectedLevel = value;
         }
     
-        var units = document.querySelectorAll('.unit-card.left-side');
+        var units = document.querySelectorAll('.left-side .unit-card');
         units.forEach(function(unit) {
             var majorMatch = (unit.getAttribute('data-major') === selectedMajor || selectedMajor === 'all');
             var semMatch = (selectedSemester === 'all' || unit.getAttribute('data-' + selectedSemester) === 'true');
