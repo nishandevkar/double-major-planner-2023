@@ -82,7 +82,7 @@
                 </thead>
                 <tbody class="units-info" id="studyPlan">
                     {% for sem_level, unit_list in units.items() %}
-                    <tr>
+                    <tr data-rowname="{{ sem_level }}">
                         <td>{{ sem_level }}</td>
                         {% for unit in unit_list %}
                             <td draggable="true" ondragstart="dragStart(event)" ondragover="allowDrop(event)" ondrop="drop(event)" class="dropzone">
@@ -270,7 +270,21 @@
         const draggedElement = document.getElementById(id);
         let dropTarget = event.target.closest(".dropzone"); 
     
-    
+        // 获取目标行的名称
+        let targetRowName = dropTarget.closest("tr").getAttribute("data-rowname");
+        let isSem1 = draggedElement.getAttribute("data-sem1") === "true";
+        let isSem2 = draggedElement.getAttribute("data-sem2") === "true";
+
+        if (targetRowName.includes("Sem1") && !isSem1) {
+            alert("This unit is not available for Sem1.");
+            return;
+        }
+
+        if (targetRowName.includes("Sem2") && !isSem2) {
+            alert("This unit is not available for Sem2.");
+            return;
+        }
+
         if (dropTarget.classList.contains("unit-card") || dropTarget.classList.contains("unit-group")) {
             dropTarget = dropTarget.parentNode;
         }
