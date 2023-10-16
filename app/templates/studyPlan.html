@@ -151,43 +151,64 @@
 
 <script type="text/javascript">
     function addUnit(buttonElement) {
+        // Hide the addUnit button
+        buttonElement.style.display = 'none';
+    
         // Find the row where the button is located
         var row = buttonElement.parentElement.parentElement;
+    
+        // Check if the new unit cell already exists
         var newUnitCell = row.querySelector(".new-unit-cell");
         
         if (!newUnitCell) {
             // Calculate the insertion position of the new cell
             var insertPosition = row.cells.length - 1;
-        
-            // Create and add a new cell for "New Unit"
-            var newCell = row.insertCell(insertPosition);  
-            newCell.innerHTML = "New Unit";
-            newCell.classList.add("new-unit-cell");
-            
-            // Create a "Remove Unit" button for the new cell
+    
+            var newCell = row.insertCell(insertPosition);
+            newCell.innerHTML = "";
+            newCell.classList.add("new-unit-cell", "dropzone");
+    
+            // Allow the cell to accept dragged items
+            newCell.addEventListener('dragover', function(event) {
+                event.preventDefault();
+                event.stopPropagation();
+            });
+            newCell.addEventListener('drop', drop);
+    
+            // Create a separate cell for the "Remove Unit" button
+            var buttonCell = row.insertCell(insertPosition + 1);
+    
+            // Create the "Remove Unit" button
             var removeButton = document.createElement('button');
             removeButton.className = 'btn btn-danger remove-unit-btn';
             removeButton.textContent = '✖';
             removeButton.onclick = function() {
-                removeUnit(this);
+                // Check if the new cell is occupied
+                if (newCell.innerHTML.trim() === "") {
+                    removeUnit(newCell, buttonCell);
+                    buttonElement.style.display = 'block'; // Show the addUnit button again
+                } else {
+                    alert("Please remove the unit first!");
+                }
             };
-            
-            // Append the "Remove Unit" button to the new cell
-            newCell.appendChild(removeButton);
+    
+            // Append the "Remove Unit" button to the button cell
+            buttonCell.appendChild(removeButton);
         }
     }
-
-    function removeUnit(buttonElement) {
-        // Find the parent cell of the "Remove Unit" button
-        var cell = buttonElement.parentElement;
-
+    
+    function removeUnit(cellElement, buttonCellElement) {
         // Find the parent row of the cell
-        var row = cell.parentElement;
+        var row = cellElement.parentElement;
         
-        // Remove the cell (which contains "New Unit" and the "Remove Unit" button)
-        row.removeChild(cell);
+        // Remove the cell and its associated button cell
+        row.removeChild(cellElement);
+        row.removeChild(buttonCellElement);
     }
+    
+    
 
+    // prerequisite for right hand 
     var prerequisiteModal = document.getElementById('prerequisiteModal');
 
     prerequisiteModal.addEventListener('show.bs.modal', function (event) {
