@@ -33,8 +33,8 @@
             <div class="units-container row d-flex flex-wrap" ondragover="allowDrop(event)" ondrop="drop(event)"> 
                 {% for s_idx, (sem, units) in enumerate(non_core_units.items()) %}
                     {% for u_idx, unit in enumerate(units) %}
-                        <div class="col-md-4 mb-4"> 
-                            <div class="unit-card unit" 
+                        <div class="col-md-4 mb-3"> 
+                            <div class="unit-card unit-container left-side" 
                                  id="unit-{{ s_idx }}-{{ u_idx }}" 
                                  draggable="true" 
                                  ondragstart="dragStart(event)" 
@@ -44,7 +44,7 @@
                                  data-level="{{ unit[2] }}" 
                                  data-sem1="{{ unit[6] }}" 
                                  data-sem2="{{ unit[7] }}">
-                                <h3>{{ unit[0] }} - {{ unit[1] }}</h3>
+                                <strong>{{ unit[0] }} - {{ unit[1] }}</strong>
                                 <p>Level {{ unit[2] }}</p>
                                 <p>Major: {{ unit[3] }}</p>
                                 <p>{{ 'Optional Unit' if unit[5] == 0 else 'Core Unit' }} / 6 points</p>
@@ -76,43 +76,44 @@
                     <tr>
                         <td>{{ sem_level }}</td>
                         {% for unit in unit_list %}
-                            <td>
-                                <strong>{{ unit[0] }} - {{ unit[1] }}</strong><br> <!-- Code - Title -->
-                                Level {{ unit[2] }}<br>
-                                Major: {{ unit[3] }}<br>
-                                {% if unit[4] != 'Nil.' %}
-                                    <button type="button" class="btn btn-light prerequiste-btn btn-sm" data-bs-toggle="modal" data-bs-target="#prerequisiteModal" data-prerequisite="{{ unit[4] }}">
-                                        Prerequisites
-                                    </button>
-                                    <div class="modal fade" id="prerequisiteModal" tabindex="-1" aria-labelledby="prerequisiteModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="prerequisiteModalLabel">Prerequisite Details</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <!-- Prerequisite details will be inserted here -->
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <td draggable="true" ondragstart="dragStart(event)" ondragover="allowDrop(event)" ondrop="drop(event)" class="dropzone">
+                                <div class="coreunit-container">
+                                    <strong>{{ unit[0] }} - {{ unit[1] }}</strong><br> <!-- Code - Title -->
+                                    Level {{ unit[2] }}<br>
+                                    Major: {{ unit[3] }}<br>
+                                    {% if unit[4] != 'Nil.' and unit[4] != 'Nil' %}
+                                        <button type="button" class="btn btn-light prerequiste-btn btn-sm" data-bs-toggle="modal" data-bs-target="#prerequisiteModal" data-prerequisite="{{ unit[4] }}">
+                                            Prerequisites
+                                        </button>
+                                        <div class="modal fade" id="prerequisiteModal" tabindex="-1" aria-labelledby="prerequisiteModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="prerequisiteModalLabel">Prerequisite Details</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <!-- Prerequisite details will be inserted here -->
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div> 
+                                        </div> 
+                                        <br>
+                                    {% endif %}
+                                    <span>
+                                        {% if unit[5] == 1 %}Core Unit{% endif %}
+                                        / 6 points
+                                    </span>
                                     <br>
-                                {% endif %}
-                                <span>
-                                    {% if unit[5] == 1 %}Core Unit{% endif %}
-                                    / 6 points
-                                </span>
-                                <br>
-                                <span>
-                                    {% if unit[6] == 'true' %}Sem 1{% endif %}
-                                    {% if unit[6] == 'true' and unit[7] == 'true' %} / {% endif %}
-                                    {% if unit[7] == 'true' %}Sem 2{% endif %}
-                                </span>
-                                
+                                    <span>
+                                        {% if unit[6] == 'true' %}Sem 1{% endif %}
+                                        {% if unit[6] == 'true' and unit[7] == 'true' %} / {% endif %}
+                                        {% if unit[7] == 'true' %}Sem 2{% endif %}
+                                    </span>
+                                </div>
                             </td>
                         {% endfor %}
                         <!-- If unit_list is less than 4, fill it with empty td -->
@@ -205,12 +206,12 @@
             selectedLevel = value;
         }
     
-        var units = document.querySelectorAll('.unit-card');
+        var units = document.querySelectorAll('.unit-card.left-side');
         units.forEach(function(unit) {
             var majorMatch = (unit.getAttribute('data-major') === selectedMajor || selectedMajor === 'all');
             var semMatch = (selectedSemester === 'all' || unit.getAttribute('data-' + selectedSemester) === 'true');
             var levelMatch = (unit.getAttribute('data-level') === selectedLevel || selectedLevel === 'all');
-    
+        
             if (majorMatch && semMatch && levelMatch) {
                 unit.parentElement.style.display = 'block'; 
             } else {
@@ -234,42 +235,43 @@
     }
     
     
-    function allowDrop(event) {
-        console.log("Drag Over Triggered");
-        event.preventDefault();  // This is necessary to allow dropping
-    }
-    
     function drop(event) {
         event.preventDefault();
         event.stopPropagation();
     
         const id = event.dataTransfer.getData("text/plain");
         const draggedElement = document.getElementById(id);
-    
         let dropTarget = event.target.closest(".dropzone"); 
     
-        if (!dropTarget) {
-            console.log("Invalid dropzone.");
-            return;
+        // 如果dropTarget自身是一个unit或unit-group, 则取其父节点作为dropzone。
+        if (dropTarget.classList.contains("unit-card") || dropTarget.classList.contains("unit-group")) {
+            dropTarget = dropTarget.parentNode;
         }
     
-        // 如果draggedElement或其父元素不在studyPlan内，我们需要复制它并禁用原始元素。
-        // 否则，我们只需要移动它。
+        const elementToSwap = dropTarget.querySelector(":scope > .unit-card, :scope > .unit-group");
         const isAlreadyInStudyPlan = draggedElement.closest("#studyPlan");
-        
-        if (!isAlreadyInStudyPlan) {
-            const clone = draggedElement.cloneNode(true);
-            clone.id = "clone_" + new Date().getTime();
-            dropTarget.appendChild(clone);
-            draggedElement.draggable = false;
-            draggedElement.classList.add('disabled');
+    
+        if (elementToSwap && isAlreadyInStudyPlan) {
+            const tempHolder = document.createElement("div");
+            draggedElement.parentNode.insertBefore(tempHolder, draggedElement);
+            dropTarget.insertBefore(draggedElement, elementToSwap);
+            tempHolder.parentNode.insertBefore(elementToSwap, tempHolder);
+            tempHolder.parentNode.removeChild(tempHolder);
+        } else if (!isAlreadyInStudyPlan) {
+            if (draggedElement.classList.contains("unit-card")) {
+                const clone = draggedElement.cloneNode(true);
+                clone.id = "clone_" + new Date().getTime();
+                dropTarget.appendChild(clone);
+                draggedElement.draggable = false;
+                draggedElement.classList.add('disabled');
+            } else {
+                // If it's a unit-group, we directly append it.
+                dropTarget.appendChild(draggedElement);
+            }
         } else {
             dropTarget.appendChild(draggedElement);
         }
     }
-    
-    
-    
     
     
     

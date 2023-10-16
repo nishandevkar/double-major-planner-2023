@@ -284,34 +284,40 @@
 }
 
 
-
-
-
-
-.unit-card {
-    border: 1px solid #000;
-    padding: 10px; /* Updated padding */
-    margin: 20px;
-    width: 150px; /* Fixed width */
-    height: 150px; /* Fixed height */
+.unit-container {
+    width: 160px; /* 根据实际需要调整 */
+    height: 170px; /* 根据实际需要调整 */
     box-sizing: border-box;
-    float: left;
-    font-size: 0.7em; /* Updated font size */
-    overflow: auto; /* Add scrollbar if content is too big */
+    border: 1px solid #ddd;
+    padding: 5px;
+    overflow: hidden; /* 为了确保内容不会溢出容器 */
 }
+
+
+.filter-btn {
+    margin: 10px;
+}
+
+ .selected {
+    background-color: blue;
+    color: white;
+}
+
+
 
 .unit-card.disabled {
     color: #999;
     cursor: not-allowed;
 }
 
-.unit-card h3 {
-    font-size: 0.8em; /* Adjust title font size */
-    margin-bottom: 10px; /* Space below the title */
+.unit-card strong {
+    font-size: 11px;
 }
 
 .unit-card p {
-    margin: 5px 0; /* Space between paragraphs */
+    font-size: 11px;
+    margin-top: 2px;
+    margin-bottom: 2px;
 }
 
 
@@ -321,11 +327,9 @@
     clear: both;
 }
 
-button {
-    margin: 10px;
-}
 
-.selected {
+
+.selected_filter{
     background-color: blue;
     color: white;
 }
@@ -364,4 +368,13 @@ button {
     color: black;
     text-decoration: none;
     cursor: pointer;
+}
+
+.coreunit-container {
+    width: 160px; /* 根据实际需要调整 */
+    height: 170px; /* 根据实际需要调整 */
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    padding: 5px;
+    overflow: hidden; /* 为了确保内容不会溢出容器 */
 }
