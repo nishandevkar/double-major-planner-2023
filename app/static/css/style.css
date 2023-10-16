@@ -257,6 +257,7 @@
     display: flex;
     align-items: center;
 }
+
 .add-unit-btn {
     margin-left: 20px;
 }
@@ -285,12 +286,12 @@
 
 
 .unit-container {
-    width: 160px; /* 根据实际需要调整 */
-    height: 170px; /* 根据实际需要调整 */
+    width: 160px; 
+    height: 170px; 
     box-sizing: border-box;
     border: 1px solid #ddd;
     padding: 5px;
-    overflow: hidden; /* 为了确保内容不会溢出容器 */
+    overflow: hidden; 
 }
 
 
@@ -304,7 +305,6 @@
 }
 
 
-
 .unit-card.disabled {
     color: #999;
     cursor: not-allowed;
@@ -316,8 +316,8 @@
 
 .unit-card p {
     font-size: 11px;
-    margin-top: 2px;
-    margin-bottom: 2px;
+    margin-top: 1px;
+    margin-bottom: 1px;
 }
 
 

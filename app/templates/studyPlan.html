@@ -4,14 +4,6 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-5 scroll-container">
-            <!-- Prerequisites Modal -->
-            <div id="prereqModal">
-                <div id="modalContent">
-                    <span class="close" onclick="document.getElementById('prereqModal').style.display='none'">&times;</span>
-                    <p id="prereqText"></p>
-                </div>
-            </div>
-
             <h2>Selected Majors:</h2>
             <ul>
             {% for major in majors %}
@@ -47,11 +39,33 @@
                                 <strong>{{ unit[0] }} - {{ unit[1] }}</strong>
                                 <p>Level {{ unit[2] }}</p>
                                 <p>Major: {{ unit[3] }}</p>
+                                <button type="button" class="btn btn-light prerequiste-btn btn-sm" data-bs-toggle="modal" data-bs-target="#prerequisiteModalLeft-{{ s_idx }}-{{ u_idx }}">
+                                    Prerequisites
+                                </button>
+                                <!-- Prerequisites Modal -->
+                                <div class="modal fade" id="prerequisiteModalLeft-{{ s_idx }}-{{ u_idx }}" tabindex="-1" aria-labelledby="prerequisiteModalLabelLeft-{{ s_idx }}-{{ u_idx }}" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="prerequisiteModalLabelLeft-{{ s_idx }}-{{ u_idx }}">Prerequisite Details</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                {{ unit[4] }}
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <p>{{ 'Optional Unit' if unit[5] == 0 else 'Core Unit' }} / 6 points</p>
                                 <p>{{ 'Sem 1' if unit[6] == 'true' else '' }} {{ 'Sem 2' if unit[7] == 'true' else '' }}</p>
-                                {% if unit[4] %}
-                                    <button class="btn btn-primary" onclick="showPrereqs('{{ unit[4] }}')">Prerequisites</button>
-                                {% endif %}
+                                
+                                
+
+                                
+
                             </div>
                         </div>
                     {% endfor %}
@@ -220,11 +234,6 @@
         });
     }
     
-    function showPrereqs(prereqs) {
-        document.getElementById('prereqText').innerText = prereqs || 'No prerequisites';
-        document.getElementById('prereqModal').style.display = 'block';
-    }
-
 
    
     function dragStart(event) {
