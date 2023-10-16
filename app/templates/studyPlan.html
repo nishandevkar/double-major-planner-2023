@@ -134,17 +134,14 @@
                         <td>
                             <button class="btn btn-dark add-unit-btn" data-row-id="{{ loop.index0 }}" onclick="addUnit(this)">Add Unit</button>
                         </td>
-                        
-                        
-                        
-                        
-
                     </tr>
                 {% endfor %}
-                
                 </tbody>
             </table>
         </div>
+        <button class="btn btn-warning" id="confirmButton" onclick="confirmUnits()">Confirm</button><br>
+        <button class="btn mt-3" id="savePDFButton" disabled>Save as PDF</button>
+
     </div>
 </div>
 
