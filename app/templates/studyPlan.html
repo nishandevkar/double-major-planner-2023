@@ -1,27 +1,26 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="container-fluid">
+<div class="container-fluid m-2">
     <div class="row">
         <div class="col-md-5 scroll-container">
-            <h2>Selected Majors:</h2>
-            <ul>
-            {% for major in majors %}
-                <li><button class="filter-btn major-btn" onclick="filterUnits('major', '{{ major }}')">{{ major }}</button></li>
-            {% endfor %}
-            </ul>
+            <div class="mb-md-2">
+                <h4>Optional Units</h4>
+            
+                {% for major in majors %}
+                    <button class="btn btn-sm filter-btn major-btn" onclick="filterUnits('major', '{{ major }}')">{{ major }}</button>
+                {% endfor %}
+                <br>
 
-            <h2>Semesters:</h2>
-            <button class="filter-btn semester-btn" onclick="filterUnits('semester', 'sem1')">Semester 1</button>
-            <button class="filter-btn semester-btn" onclick="filterUnits('semester', 'sem2')">Semester 2</button>
-            <button class="filter-btn semester-btn" onclick="filterUnits('semester', 'all')">Show All</button>
+                <button class="btn btn-sm filter-btn semester-btn" onclick="filterUnits('semester', 'sem1')">Semester 1</button>
+                <button class="btn btn-sm filter-btn semester-btn" onclick="filterUnits('semester', 'sem2')">Semester 2</button>
+                <button class="btn btn-sm filter-btn semester-btn" onclick="filterUnits('semester', 'all')">Show All</button><br>
 
-            <h2>Levels:</h2>
-            <button class="filter-btn level-btn" onclick="filterUnits('level', '1')">Level 1</button>
-            <button class="filter-btn level-btn" onclick="filterUnits('level', '2')">Level 2</button>
-            <button class="filter-btn level-btn" onclick="filterUnits('level', '3')">Level 3</button>
-            <button class="filter-btn level-btn" onclick="filterUnits('level', 'all')">Show All</button>
-
+                <button class="btn btn-sm filter-btn level-btn" onclick="filterUnits('level', '1')">Level 1</button>
+                <button class="btn btn-sm filter-btn level-btn" onclick="filterUnits('level', '2')">Level 2</button>
+                <button class="btn btn-sm filter-btn level-btn" onclick="filterUnits('level', '3')">Level 3</button>
+                <button class="btn btn-sm filter-btn level-btn" onclick="filterUnits('level', 'all')">Show All</button>
+            </div>
             <div class="units-container row d-flex flex-wrap" ondragover="allowDrop(event)" ondrop="drop(event)"> 
                 {% for s_idx, (sem, units) in enumerate(non_core_units.items()) %}
                     {% for u_idx, unit in enumerate(units) %}
@@ -256,7 +255,7 @@
         const draggedElement = document.getElementById(id);
         let dropTarget = event.target.closest(".dropzone"); 
     
-        // 如果dropTarget自身是一个unit或unit-group, 则取其父节点作为dropzone。
+    
         if (dropTarget.classList.contains("unit-card") || dropTarget.classList.contains("unit-group")) {
             dropTarget = dropTarget.parentNode;
         }
@@ -274,11 +273,11 @@
             if (draggedElement.classList.contains("unit-card")) {
                 const clone = draggedElement.cloneNode(true);
                 clone.id = "clone_" + new Date().getTime();
-                clone.setAttribute('data-original-id', draggedElement.id); // 设置原始ID
+                clone.setAttribute('data-original-id', draggedElement.id); // set origin ID
                 
 
             
-            // 添加删除按钮
+            // add delete button 
             const deleteButton = document.createElement('button');
             deleteButton.innerText = 'X';
             deleteButton.className = 'btn-delete-unit';

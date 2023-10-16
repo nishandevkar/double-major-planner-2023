@@ -287,7 +287,7 @@
 
 .unit-container {
     width: 160px; 
-    height: 170px; 
+    height: 195px; 
     box-sizing: border-box;
     border: 1px solid #ddd;
     padding: 5px;
@@ -296,11 +296,14 @@
 
 
 .filter-btn {
+    border:solid 1px;
+    border-radius: 5px;
     margin: 10px;
 }
 
- .selected {
-    background-color: blue;
+.filter-btn.selected {
+    border-radius: 5px;
+    background-color: #28348B;
     color: white;
 }
 
@@ -371,10 +374,27 @@
 }
 
 .coreunit-container {
-    width: 160px; /* 根据实际需要调整 */
-    height: 170px; /* 根据实际需要调整 */
+    width: 160px; 
+    height: 180px; 
     box-sizing: border-box;
     border: 1px solid #ddd;
     padding: 5px;
-    overflow: hidden; /* 为了确保内容不会溢出容器 */
+    overflow: hidden;
 }
+
+.unit-card {
+    position: relative;
+}
+.btn-delete-unit {
+    background-color: rgb(148, 4, 4);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 165px; 
+    left: 125px; 
+    cursor: pointer;
+}
+
