@@ -77,18 +77,18 @@ def process_duplicates(raw_data):
     return processed_data
 
 def process_units(data):
-    print(f"Input data: {data}")  
+    # print(f"Input data: {data}")
     
     # Check the length of a sample unit
-    print(f"Sample unit: {data[0]}")  
-    print(f"Length of sample unit: {len(data[0])}")  
+    # print(f"Sample unit: {data[0]}")
+    # print(f"Length of sample unit: {len(data[0])}")
     
     foundation_core_units = sorted(
         [unit for unit in data if unit[5] == 1 or unit[3] == "Foundation"],
         key=lambda x: x[2]  
     )
 
-    print(f"Foundation and core units: {foundation_core_units}")  
+    # print(f"Foundation and core units: {foundation_core_units}")
     
     organized_units = {
         "1st year Sem1": [],
@@ -112,7 +112,7 @@ def process_units(data):
     except IndexError as e:
         print(f"IndexError for unit {unit}: {e}")
     
-    print(f"Organized units: {organized_units}")  
+    # print(f"Organized units: {organized_units}")
     return organized_units
 
 
@@ -148,11 +148,11 @@ def getUnits(selected_majors):
     """
     cursor.execute(query, (selected_majors[0], selected_majors[1]))
     raw_data = cursor.fetchall()
-    print(f"Raw Data: {raw_data}")
+    # print(f"Raw Data: {raw_data}")
     
     # Process the data to remove/merge duplicates
     processed_data = process_duplicates(raw_data)
-    print(f"Processed Data: {processed_data}")
+    # print(f"Processed Data: {processed_data}")
     
     query = """
         SELECT *
@@ -172,7 +172,7 @@ def filter_non_core_units(raw_data):
             semester_level = f"{row[2]} year Sem{row[6]}"
             filtered_units[semester_level].append(row)
     
-    print(f"Filtered non-core units: {dict(filtered_units)}")  
+    # print(f"Filtered non-core units: {dict(filtered_units)}")
     return dict(filtered_units)
 
 
@@ -187,7 +187,7 @@ def organize_non_core_units(non_core_units_raw):
 
 
 def ifvalid(selected_majors, units):
-    conn = sqlite3.connect('./commerce_database_solution1_updated.sqlite')
+    conn = sqlite3.connect('../commerce_database_solution1_updated.sqlite')
     cursor = conn.cursor()
     placeholders = ', '.join(['?'] * len(units))
     query = """
@@ -214,17 +214,18 @@ def ifvalid(selected_majors, units):
     cursor.execute(query, (selected_majors[0], selected_majors[1]))
     structures = cursor.fetchall()
     conn.close()
-    print(count, structures)
+    # print(count, structures)
     flag = True
+    if len(count) < 4:
+        flag = False
     for cnt in count:
         for struc in structures:
             if cnt[0] == struc[1]:
-                print(cnt, struc)
-                if cnt[1] == 2:
-                    if cnt[2] < struc[3]:
+                # print(cnt, struc)
+                if cnt[1] == 2 and cnt[2] < struc[3]:
                         flag = False
-                elif cnt[1] == 3:
-                    if cnt[2] < struc[4]:
+                elif cnt[1] == 3 and cnt[2] < struc[4]:
                         flag = False
+    # print(flag)
     return flag
 
