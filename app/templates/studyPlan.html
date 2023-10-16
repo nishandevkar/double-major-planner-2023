@@ -138,10 +138,10 @@
                 {% endfor %}
                 </tbody>
             </table>
-        </div>
-        <button class="btn btn-warning" id="confirmButton" onclick="confirmUnits()">Confirm</button><br>
-        <button class="btn mt-3" id="savePDFButton" disabled>Save as PDF</button>
+            <button class="btn btn-danger finalcheck-btn" id="confirm-btn">Confirm</button>
+            <button class="btn btn-success" id="save-as-pdf-btn" disabled>Save as PDF</button>
 
+        </div>
     </div>
 </div>
 
@@ -325,22 +325,65 @@
         } else {
             dropTarget.appendChild(draggedElement);
         }
+        // At the end of the drop function, populate the selectedUnits array.
+        selectedUnits = [];  // Reset the array
+        document.querySelectorAll("#studyPlan .unit-card").forEach(unit => {
+            const originalId = unit.getAttribute("data-original-id") || unit.id; // use the original ID if available, otherwise use the clone ID
+            selectedUnits.push(originalId);  // or another attribute if not id
+        });
     }
     
+    let selectedMajors = {{ majors | tojson | safe }};
+    console.log(selectedMajors);
+
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('confirm-btn').addEventListener('click', confirmUnits);
+        const saveBtn = document.getElementById("save-as-pdf-btn");
+        function confirmUnits() {
+            console.log("confirmUnits called");
     
-    function deleteUnit(unitElement) {
-        // Find the corresponding left-side unit and enable it
-        const originalUnitId = unitElement.getAttribute('data-original-id');
-        const originalUnit = document.getElementById(originalUnitId);
+            let selectedUnits = [];
+            document.querySelectorAll("#studyPlan .unit-card").forEach(unit => {
+                selectedUnits.push(unit.getAttribute('data-unit-code'));
+            });
         
-        if (originalUnit) {
-            originalUnit.draggable = true;
-            originalUnit.classList.remove('disabled');
+            let payload = {
+                selected_majors: selectedMajors,
+                selected_units: selectedUnits
+            };
+        
+            fetch('/ifValid', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(response => {
+                console.log("Response received:", response);
+                return response.json();
+            })
+            .then(data => {
+                if (data.ifvalid) {
+                    saveBtn.removeAttribute('disabled');
+                    saveBtn.classList.remove('pdf-btn');
+                    window.alert("Study plan is valid!");
+                } else {
+                    saveBtn.setAttribute('disabled', 'disabled');
+                    saveBtn.classList.add('pdf-btn');
+                    window.alert("Study plan is not valid. Please check your selections.");
+                }
+            })
+            .catch(error => {
+                console.error("There was an error processing the request:", error);
+                window.alert("There was an error processing your request. Please try again."); // 如果有任何错误，也提醒用户
+            });
         }
+    });
     
-        // Remove the unit from the study plan
-        unitElement.parentNode.removeChild(unitElement);
-    }
+    
+    
+    
     
     
     
