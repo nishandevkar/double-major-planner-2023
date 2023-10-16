@@ -242,7 +242,11 @@
         event.dataTransfer.setData("text/plain", draggedElement.id);
         console.log("Dragging Element ID: " + draggedElement.id);
     }
-    
+
+    function allowDrop(event) {
+        console.log("Drag Over Triggered");
+        event.preventDefault();  // This is necessary to allow dropping
+    }
     
     function drop(event) {
         event.preventDefault();
@@ -270,9 +274,22 @@
             if (draggedElement.classList.contains("unit-card")) {
                 const clone = draggedElement.cloneNode(true);
                 clone.id = "clone_" + new Date().getTime();
-                dropTarget.appendChild(clone);
-                draggedElement.draggable = false;
-                draggedElement.classList.add('disabled');
+                clone.setAttribute('data-original-id', draggedElement.id); // 设置原始ID
+                
+
+            
+            // 添加删除按钮
+            const deleteButton = document.createElement('button');
+            deleteButton.innerText = 'X';
+            deleteButton.className = 'btn-delete-unit';
+            deleteButton.onclick = function() {
+                deleteUnit(clone);
+            };
+            clone.appendChild(deleteButton);
+            
+            dropTarget.appendChild(clone);
+            draggedElement.draggable = false;
+            draggedElement.classList.add('disabled');
             } else {
                 // If it's a unit-group, we directly append it.
                 dropTarget.appendChild(draggedElement);
@@ -282,6 +299,20 @@
         }
     }
     
+    
+    function deleteUnit(unitElement) {
+        // Find the corresponding left-side unit and enable it
+        const originalUnitId = unitElement.getAttribute('data-original-id');
+        const originalUnit = document.getElementById(originalUnitId);
+        
+        if (originalUnit) {
+            originalUnit.draggable = true;
+            originalUnit.classList.remove('disabled');
+        }
+    
+        // Remove the unit from the study plan
+        unitElement.parentNode.removeChild(unitElement);
+    }
     
     
     
