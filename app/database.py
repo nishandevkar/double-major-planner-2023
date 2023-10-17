@@ -236,4 +236,3 @@ def ifvalid(selected_majors, units):
         flag = False
     # print(flag)
     return flag
-
