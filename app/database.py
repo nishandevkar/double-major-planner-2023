@@ -218,8 +218,8 @@ def ifvalid(selected_majors, units):
     flag = True
     strucnum = 0
     for struc in structures:
-        for i in range(2,5):
-            if struc[2] > 0:
+        for i in range(2, 5):
+            if struc[i] > 0:
                 strucnum += 1
     for cnt in count:
         for struc in structures:
