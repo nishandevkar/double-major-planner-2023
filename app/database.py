@@ -187,7 +187,7 @@ def organize_non_core_units(non_core_units_raw):
 
 
 def ifvalid(selected_majors, units):
-    conn = sqlite3.connect('../commerce_database_solution1_updated.sqlite')
+    conn = sqlite3.connect('./commerce_database_solution1_updated.sqlite')
     cursor = conn.cursor()
     placeholders = ', '.join(['?'] * len(units))
     query = """
@@ -216,16 +216,24 @@ def ifvalid(selected_majors, units):
     conn.close()
     # print(count, structures)
     flag = True
-    if len(count) < 4:
-        flag = False
+    strucnum = 0
+    for struc in structures:
+        for i in range(2,5):
+            if struc[2] > 0:
+                strucnum += 1
     for cnt in count:
         for struc in structures:
             if cnt[0] == struc[1]:
                 # print(cnt, struc)
-                if cnt[1] == 2 and cnt[2] < struc[3]:
-                        flag = False
+                strucnum -= 1
+                if cnt[1] == 1 and cnt[2] < struc[2]:
+                    flag = False
+                elif cnt[1] == 2 and cnt[2] < struc[3]:
+                    flag = False
                 elif cnt[1] == 3 and cnt[2] < struc[4]:
-                        flag = False
+                    flag = False
+    if strucnum != 0:
+        flag = False
     # print(flag)
     return flag
 
