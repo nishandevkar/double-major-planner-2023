@@ -187,7 +187,7 @@ def organize_non_core_units(non_core_units_raw):
 
 
 def ifvalid(selected_majors, units):
-    conn = sqlite3.connect('./commerce_database_solution1_updated.sqlite')
+    conn = sqlite3.connect('../commerce_database_solution1_updated.sqlite')
     cursor = conn.cursor()
     placeholders = ', '.join(['?'] * len(units))
     query = """
@@ -212,27 +212,48 @@ def ifvalid(selected_majors, units):
             WHERE major_table.major_name=? OR major_table.major_name=?
         """
     cursor.execute(query, (selected_majors[0], selected_majors[1]))
-    structures = cursor.fetchall()
+    structures = list(cursor.fetchall())
+    query = """
+        SELECT
+            major_table.major_name,
+            unit_table.level,
+            count(*)
+        FROM
+            unit_table, major_table
+        WHERE
+            (major_table.major_name=? OR major_table.major_name=?) AND
+            unit_table.Is_Core=1 AND
+            unit_table.major=major_table.id
+        GROUP BY
+            major_name, unit_table.level
+        """.format(placeholders)
+    cursor.execute(query, (selected_majors[0], selected_majors[1]))
+    corecount = cursor.fetchall()
     conn.close()
     # print(count, structures)
-    flag = True
-    strucnum = 0
-    for struc in structures:
-        for i in range(2, 5):
-            if struc[i] > 0:
-                strucnum += 1
-    for cnt in count:
+    for i in range(len(corecount)):
+        corecount[i] = list(corecount[i])
+    for i in range(len(structures)):
+        structures[i] = list(structures[i])
+    # print(corecount)
+    # print(structures)
+    for cnt in corecount:
         for struc in structures:
             if cnt[0] == struc[1]:
+                struc[cnt[1]+1] -= cnt[2]
+    # print(structures)
+    flag = True
+    for i in range(len(count)):
+        for j in range(len(structures)):
+            if count[i][0] == structures[j][1]:
                 # print(cnt, struc)
-                strucnum -= 1
-                if cnt[1] == 1 and cnt[2] < struc[2]:
+                if count[i][2] < structures[j][count[i][1]+1]:
                     flag = False
-                elif cnt[1] == 2 and cnt[2] < struc[3]:
-                    flag = False
-                elif cnt[1] == 3 and cnt[2] < struc[4]:
-                    flag = False
-    if strucnum != 0:
-        flag = False
+                structures[j][count[i][1]+1] = 0
+    # print(structures)
+    for i in range(len(structures)):
+        for j in range(2,5):
+            if structures[i][j] > 0:
+                flag = False
     # print(flag)
     return flag
