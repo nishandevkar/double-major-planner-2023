@@ -172,7 +172,7 @@ def filter_non_core_units(raw_data):
             semester_level = f"{row[2]} year Sem{row[6]}"
             filtered_units[semester_level].append(row)
     
-    # print(f"Filtered non-core units: {dict(filtered_units)}")
+    print(f"Filtered non-core units: {dict(filtered_units)}")
     return dict(filtered_units)
 
 

@@ -11,7 +11,6 @@
                     <button class="btn btn-sm filter-btn major-btn" onclick="filterUnits('major', '{{ major }}')">{{ major }}</button>
                 {% endfor %}
                 <br>
-
                 <button class="btn btn-sm filter-btn semester-btn" onclick="filterUnits('semester', 'sem1')">Semester 1</button>
                 <button class="btn btn-sm filter-btn semester-btn" onclick="filterUnits('semester', 'sem2')">Semester 2</button>
                 <button class="btn btn-sm filter-btn semester-btn" onclick="filterUnits('semester', 'all')">Show All</button><br>
@@ -65,11 +64,7 @@
                         </div>
                     {% endfor %}
                 {% endfor %}
-            </div>
-            
-
-
-                        
+            </div>         
         </div>
 
                 
@@ -145,8 +140,10 @@
     </div>
 </div>
 
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
 <script type="text/javascript">
+    // add unit button & remove button 
     function addUnit(buttonElement) {
         // Hide the addUnit button
         buttonElement.style.display = 'none';
@@ -203,8 +200,6 @@
         row.removeChild(buttonCellElement);
     }
     
-    
-
     // prerequisite for right hand 
     var prerequisiteModal = document.getElementById('prerequisiteModal');
 
@@ -218,6 +213,7 @@
         modalBody.textContent = prerequisite;
     });
 
+    // filter function
     var selectedMajor = 'all';
     var selectedSemester = 'all';
     var selectedLevel = 'all';
@@ -249,7 +245,7 @@
     }
     
 
-   
+    // drag&drop function
     function dragStart(event) {
         console.log("Drag Start Triggered");
         draggedElement = event.target;
@@ -269,8 +265,7 @@
         const id = event.dataTransfer.getData("text/plain");
         const draggedElement = document.getElementById(id);
         let dropTarget = event.target.closest(".dropzone"); 
-    
-        // 获取目标行的名称
+
         let targetRowName = dropTarget.closest("tr").getAttribute("data-rowname");
         let isSem1 = draggedElement.getAttribute("data-sem1") === "true";
         let isSem2 = draggedElement.getAttribute("data-sem2") === "true";
@@ -305,9 +300,6 @@
                 clone.setAttribute('data-original-id', draggedElement.id);
                 clone.setAttribute('data-unit-code', draggedElement.getAttribute('data-unit-code') || draggedElement.id);
 
-                
-
-            
             // add delete button 
             const deleteButton = document.createElement('button');
             deleteButton.innerText = 'X';
@@ -349,7 +341,8 @@
         unitElement.parentNode.removeChild(unitElement);
     }
     
-    
+
+    // check studyplan ifvalid function
     let selectedMajors = {{ majors | tojson | safe }};
     console.log(selectedMajors);
 
@@ -366,9 +359,7 @@
                 console.log("Unit Code for", unit.id, ":", unitCode);
                 selectedUnits.push(unitCode);
             });
-            
-            
-        
+
             let payload = {
                 selected_majors: selectedMajors,
                 selected_units: selectedUnits
@@ -389,6 +380,7 @@
                 return response.json();
             })
             .then(data => {
+                console.log("Received Data:", data);
                 if (data.ifvalid) {
                     saveBtn.removeAttribute('disabled');
                     saveBtn.classList.remove('pdf-btn');
@@ -405,18 +397,61 @@
             });
         }
     });
+
+
+    // Save as PDF function 
+    function saveTableAsPDF() {
+        var doc = new window.jspdf.jsPDF();    
+       
+        const rows = document.querySelectorAll("#studyPlan tr");
+        let data = [];
     
+        rows.forEach(row => {
+            let rowData = [];
+            const cells = row.querySelectorAll("td:not(:last-child)");  
+            cells.forEach(cell => {
+                rowData.push(cell.innerText.trim());
+            });
+            if (rowData.length > 0) {
+                data.push(rowData);
+            }
+        });
     
+        var pageNumber = 1;
+        var rowsAfterWhichToChangePage = 4; 
     
+        doc.setFontSize(20);
+        doc.text("Study Plan for Double Majors:", 20, 20); 
+
+        doc.setFontSize(16);
+        var majorText = selectedMajors.join(', ');
+        doc.text(majorText, 20, 30); // 
     
+        let startY = 40;
     
+        data.forEach((row, rowIndex) => {
+            if (rowIndex === rowsAfterWhichToChangePage) {
+                doc.addPage();
+                startY = 20; 
+            }
+            doc.autoTable({
+                body: [row],
+                theme: 'grid',
+                startY: startY,
+                styles: {
+                    fillColor: [255, 255, 255],
+                    textColor: 20,
+                    fontStyle: 'normal'
+                }
+            });
+            startY = doc.autoTable.previous.finalY + 10; 
+        });
     
-    
+        doc.save('study-plan.pdf');
+    }
+
+    document.getElementById('save-as-pdf-btn').addEventListener('click', saveTableAsPDF);
+
 </script>
-
-
-
-
-
 
 {% endblock %}
