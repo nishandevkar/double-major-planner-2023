@@ -5,7 +5,7 @@ library(openxlsx)
 library(stringr)
 
 
-excel_file_path <- "Sequence export (5).xlsx"
+excel_file_path <- "Sequence export (2).xlsx"
 
 
 second_row <- read_excel(excel_file_path, range = "A2:A2", col_names = FALSE)
@@ -134,7 +134,7 @@ wb <- createWorkbook()
 addWorksheet(wb, "data_with_grouping")
 writeData(wb, "data_with_grouping", data_with_grouping)
 
-saveWorkbook(wb, "newsample5.xlsx")
+saveWorkbook(wb, "newsample2.xlsx")
 
 
 
