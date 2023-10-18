@@ -332,6 +332,21 @@
             selectedUnits.push(originalId);  // or another attribute if not id
         });
     }
+
+    function deleteUnit(unitElement) {
+        // Find the corresponding left-side unit and enable it
+        const originalUnitId = unitElement.getAttribute('data-original-id');
+        const originalUnit = document.getElementById(originalUnitId);
+        
+        if (originalUnit) {
+            originalUnit.draggable = true;
+            originalUnit.classList.remove('disabled');
+        }
+    
+        // Remove the unit from the study plan
+        unitElement.parentNode.removeChild(unitElement);
+    }
+    
     
     let selectedMajors = {{ majors | tojson | safe }};
     console.log(selectedMajors);
