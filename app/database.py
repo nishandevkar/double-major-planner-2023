@@ -187,7 +187,7 @@ def organize_non_core_units(non_core_units_raw):
 
 
 def ifvalid(selected_majors, units):
-    conn = sqlite3.connect('../commerce_database_solution1_updated.sqlite')
+    conn = sqlite3.connect('./commerce_database_solution1_updated.sqlite')
     cursor = conn.cursor()
     placeholders = ', '.join(['?'] * len(units))
     query = """
@@ -206,6 +206,8 @@ def ifvalid(selected_majors, units):
         """.format(placeholders)
     cursor.execute(query, (selected_majors[0], selected_majors[1], *units))
     count = cursor.fetchall()
+    # print(units)
+    # print(count)
     query = """
             SELECT *
             FROM major_table
@@ -226,7 +228,7 @@ def ifvalid(selected_majors, units):
             unit_table.major=major_table.id
         GROUP BY
             major_name, unit_table.level
-        """.format(placeholders)
+        """
     cursor.execute(query, (selected_majors[0], selected_majors[1]))
     corecount = cursor.fetchall()
     conn.close()
@@ -237,10 +239,10 @@ def ifvalid(selected_majors, units):
         structures[i] = list(structures[i])
     # print(corecount)
     # print(structures)
-    for cnt in corecount:
-        for struc in structures:
-            if cnt[0] == struc[1]:
-                struc[cnt[1]+1] -= cnt[2]
+    for i in range(len(corecount)):
+        for j in range(len(structures)):
+            if corecount[i][0] == structures[j][1]:
+                structures[j][corecount[i][1]+1] -= corecount[i][2]
     # print(structures)
     flag = True
     for i in range(len(count)):
