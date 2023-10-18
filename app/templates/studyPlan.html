@@ -302,7 +302,9 @@
             if (draggedElement.classList.contains("unit-card")) {
                 const clone = draggedElement.cloneNode(true);
                 clone.id = "clone_" + new Date().getTime();
-                clone.setAttribute('data-original-id', draggedElement.id); // set origin ID
+                clone.setAttribute('data-original-id', draggedElement.id);
+                clone.setAttribute('data-unit-code', draggedElement.getAttribute('data-unit-code') || draggedElement.id);
+
                 
 
             
@@ -354,19 +356,27 @@
     document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('confirm-btn').addEventListener('click', confirmUnits);
         const saveBtn = document.getElementById("save-as-pdf-btn");
+        
         function confirmUnits() {
             console.log("confirmUnits called");
     
             let selectedUnits = [];
             document.querySelectorAll("#studyPlan .unit-card").forEach(unit => {
-                selectedUnits.push(unit.getAttribute('data-unit-code'));
+                const unitCode = unit.getAttribute('data-unit-name');
+                console.log("Unit Code for", unit.id, ":", unitCode);
+                selectedUnits.push(unitCode);
             });
+            
+            
         
             let payload = {
                 selected_majors: selectedMajors,
                 selected_units: selectedUnits
             };
         
+            // Add the following line to print the selectedUnits array:
+            console.log("Selected Units:", selectedUnits);
+            
             fetch('/ifValid', {
                 method: 'POST',
                 headers: {
