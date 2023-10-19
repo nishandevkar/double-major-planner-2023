@@ -120,32 +120,54 @@ def getUnits(selected_majors):
     conn = sqlite3.connect('./commerce_database_solution1_updated.sqlite')
     cursor = conn.cursor()
     query = """
-    SELECT 
-    unit_table.Code, 
-    unit_table.Title, 
-    unit_table.Level,  
-    unit_with_major.major_name, 
-    unit_table.prerequisites, 
-    unit_table.Is_Core,
-    CASE 
-        WHEN '1 Semester 2023' IN (Avail_1_Semester_Year, Avail_2_Semester_Year, Avail_3_Semester_Year, Avail_4_Semester_Year, Avail_5_Semester_Year, Avail_6_Semester_Year, Avail_7_Semester_Year) 
-            THEN 'true'
+        SELECT 
+        unit_table.Code, 
+        unit_table.Title, 
+        unit_table.Level,  
+        unit_with_major.major_name, 
+        unit_table.prerequisites, 
+        unit_table.Is_Core,
+        CASE 
+            WHEN
+            Avail_1_Semester_Year LIKE '%Semester 1%'
+            OR Avail_2_Semester_Year LIKE '%Semester 1%'
+            OR Avail_3_Semester_Year LIKE '%Semester 1%'
+            OR Avail_4_Semester_Year LIKE '%Semester 1%'
+            OR Avail_5_Semester_Year LIKE '%Semester 1%'
+            OR Avail_6_Semester_Year LIKE '%Semester 1%'
+            OR Avail_7_Semester_Year LIKE '%Semester 1%'
+        THEN 'true'
         ELSE 'false'
-    END AS sem1,
-    CASE 
-        WHEN '2 Semester 2023' IN (Avail_1_Semester_Year, Avail_2_Semester_Year, Avail_3_Semester_Year, Avail_4_Semester_Year, Avail_5_Semester_Year, Avail_6_Semester_Year, Avail_7_Semester_Year) 
-            THEN 'true'
+        END AS sem1,
+        CASE 
+            WHEN
+            Avail_1_Semester_Year LIKE '%Semester 2%'
+            OR Avail_2_Semester_Year LIKE '%Semester 2%'
+            OR Avail_3_Semester_Year LIKE '%Semester 2%'
+            OR Avail_4_Semester_Year LIKE '%Semester 2%'
+            OR Avail_5_Semester_Year LIKE '%Semester 2%'
+            OR Avail_6_Semester_Year LIKE '%Semester 2%'
+            OR Avail_7_Semester_Year LIKE '%Semester 2%'
+        THEN 'true'
         ELSE 'false'
-    END AS sem2
-    FROM 
-        unit_table, unit_with_major, level_table
-    WHERE
-        (unit_with_major.major_name=? OR unit_with_major.major_name=? OR unit_with_major.major_name='Foundation') AND
-        unit_table.Code=unit_with_major.Code AND unit_table.grouping=level_table.id AND
-        unit_table.major=unit_with_major.major_id AND
-        ('1 Semester 2023' IN (Avail_1_Semester_Year, Avail_2_Semester_Year, Avail_3_Semester_Year, Avail_4_Semester_Year, Avail_5_Semester_Year, Avail_6_Semester_Year, Avail_7_Semester_Year) OR 
-        '2 Semester 2023' IN (Avail_1_Semester_Year, Avail_2_Semester_Year, Avail_3_Semester_Year, Avail_4_Semester_Year, Avail_5_Semester_Year, Avail_6_Semester_Year, Avail_7_Semester_Year));
-    """
+        END AS sem2
+        FROM 
+            unit_table, unit_with_major
+        WHERE
+            (unit_with_major.major_name=? OR unit_with_major.major_name=? OR unit_with_major.major_name='Foundation') AND
+            unit_table.Code=unit_with_major.Code AND
+            unit_table.major=unit_with_major.major_id AND
+            (
+                (Avail_1_Semester_Year LIKE '%Semester 1%' OR Avail_1_Semester_Year LIKE '%Semester 2%') OR
+                (Avail_2_Semester_Year LIKE '%Semester 1%' OR Avail_2_Semester_Year LIKE '%Semester 2%') OR
+                (Avail_3_Semester_Year LIKE '%Semester 1%' OR Avail_3_Semester_Year LIKE '%Semester 2%') OR
+                (Avail_4_Semester_Year LIKE '%Semester 1%' OR Avail_4_Semester_Year LIKE '%Semester 2%') OR
+                (Avail_5_Semester_Year LIKE '%Semester 1%' OR Avail_5_Semester_Year LIKE '%Semester 2%') OR
+                (Avail_6_Semester_Year LIKE '%Semester 1%' OR Avail_6_Semester_Year LIKE '%Semester 2%') OR
+                (Avail_7_Semester_Year LIKE '%Semester 1%' OR Avail_7_Semester_Year LIKE '%Semester 2%')
+            )
+        ;
+        """
     cursor.execute(query, (selected_majors[0], selected_majors[1]))
     raw_data = cursor.fetchall()
     # print(f"Raw Data: {raw_data}")
