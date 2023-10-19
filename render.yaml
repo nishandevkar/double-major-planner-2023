@@ -1,0 +1,4 @@
+web:
+  - name: Double-Major-Study-Planner
+    env: python
+    startCommand: gunicorn -w 4 -b 0.0.0.0:8000 run:app
