@@ -48,32 +48,40 @@ def getMajors(courses):
 
 def process_duplicates(raw_data):
     processed_data = []
-    seen_units = {}
+    # seen_units = {}
+    #
+    # for unit in raw_data:
+    #     unit_code, unit_name = unit[0], unit[1]
+    #
+    #     if (unit_code, unit_name) in seen_units:
+    #         prev_unit = seen_units[(unit_code, unit_name)]
+    #
+    #         if unit[2:] == prev_unit[2:]:
+    #             continue
+    #         else:
+    #             merged_unit = (
+    #                 unit_code,
+    #                 unit_name,
+    #                 unit[2],
+    #                 unit[3],
+    #                 unit[4],
+    #                 unit[5],
+    #                 str(unit[6] == 'true' or prev_unit[6] == 'true').lower(),
+    #                 str(unit[7] == 'true' or prev_unit[7] == 'true').lower()
+    #             )
+    #             seen_units[(unit_code, unit_name)] = merged_unit
+    #     else:
+    #         seen_units[(unit_code, unit_name)] = unit
+    #
+    # processed_data = list(seen_units.values())
 
+
+    unitsset = {}
     for unit in raw_data:
-        unit_code, unit_name = unit[0], unit[1]
-        
-        if (unit_code, unit_name) in seen_units:
-            prev_unit = seen_units[(unit_code, unit_name)]
-            
-            if unit[2:] == prev_unit[2:]:
-                continue
-            else:
-                merged_unit = (
-                    unit_code, 
-                    unit_name, 
-                    unit[2],
-                    unit[3],
-                    unit[4],
-                    unit[5],
-                    str(unit[6] == 'true' or prev_unit[6] == 'true').lower(),
-                    str(unit[7] == 'true' or prev_unit[7] == 'true').lower()
-                )
-                seen_units[(unit_code, unit_name)] = merged_unit
-        else:
-            seen_units[(unit_code, unit_name)] = unit
-    
-    processed_data = list(seen_units.values())
+        if unit not in unitsset:
+            unitsset[unit[0]] = unit[1]
+            processed_data.append(unit)
+
     return processed_data
 
 def process_units(data):
@@ -170,6 +178,7 @@ def getUnits(selected_majors):
         """
     cursor.execute(query, (selected_majors[0], selected_majors[1]))
     raw_data = cursor.fetchall()
+
     # print(f"Raw Data: {raw_data}")
     
     # Process the data to remove/merge duplicates
