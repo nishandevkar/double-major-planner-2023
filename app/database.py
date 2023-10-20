@@ -137,27 +137,27 @@ def getUnits(selected_majors):
         unit_table.Is_Core,
         CASE 
             WHEN
-            Avail_1_Semester_Year LIKE '%Semester 1%'
-            OR Avail_2_Semester_Year LIKE '%Semester 1%'
-            OR Avail_3_Semester_Year LIKE '%Semester 1%'
-            OR Avail_4_Semester_Year LIKE '%Semester 1%'
-            OR Avail_5_Semester_Year LIKE '%Semester 1%'
-            OR Avail_6_Semester_Year LIKE '%Semester 1%'
-            OR Avail_7_Semester_Year LIKE '%Semester 1%'
-        THEN 'true'
-        ELSE 'false'
+            Avail_1_Semester_Year LIKE '%1 Semester%'
+            OR Avail_2_Semester_Year LIKE '%1 Semester%'
+            OR Avail_3_Semester_Year LIKE '%1 Semester%'
+            OR Avail_4_Semester_Year LIKE '%1 Semester%'
+            OR Avail_5_Semester_Year LIKE '%1 Semester%'
+            OR Avail_6_Semester_Year LIKE '%1 Semester%'
+            OR Avail_7_Semester_Year LIKE '%1 Semester%'
+            THEN 'true'
+            ELSE 'false'
         END AS sem1,
         CASE 
             WHEN
-            Avail_1_Semester_Year LIKE '%Semester 2%'
-            OR Avail_2_Semester_Year LIKE '%Semester 2%'
-            OR Avail_3_Semester_Year LIKE '%Semester 2%'
-            OR Avail_4_Semester_Year LIKE '%Semester 2%'
-            OR Avail_5_Semester_Year LIKE '%Semester 2%'
-            OR Avail_6_Semester_Year LIKE '%Semester 2%'
-            OR Avail_7_Semester_Year LIKE '%Semester 2%'
-        THEN 'true'
-        ELSE 'false'
+            Avail_1_Semester_Year LIKE '%2 Semester%'
+            OR Avail_2_Semester_Year LIKE '%2 Semester%'
+            OR Avail_3_Semester_Year LIKE '%2 Semester%'
+            OR Avail_4_Semester_Year LIKE '%2 Semester%'
+            OR Avail_5_Semester_Year LIKE '%2 Semester%'
+            OR Avail_6_Semester_Year LIKE '%2 Semester%'
+            OR Avail_7_Semester_Year LIKE '%2 Semester%'
+            THEN 'true'
+            ELSE 'false'
         END AS sem2
         FROM 
             unit_table, unit_with_major
@@ -166,18 +166,23 @@ def getUnits(selected_majors):
             unit_table.Code=unit_with_major.Code AND
             unit_table.major=unit_with_major.major_id AND
             (
-                (Avail_1_Semester_Year LIKE '%Semester 1%' OR Avail_1_Semester_Year LIKE '%Semester 2%') OR
-                (Avail_2_Semester_Year LIKE '%Semester 1%' OR Avail_2_Semester_Year LIKE '%Semester 2%') OR
-                (Avail_3_Semester_Year LIKE '%Semester 1%' OR Avail_3_Semester_Year LIKE '%Semester 2%') OR
-                (Avail_4_Semester_Year LIKE '%Semester 1%' OR Avail_4_Semester_Year LIKE '%Semester 2%') OR
-                (Avail_5_Semester_Year LIKE '%Semester 1%' OR Avail_5_Semester_Year LIKE '%Semester 2%') OR
-                (Avail_6_Semester_Year LIKE '%Semester 1%' OR Avail_6_Semester_Year LIKE '%Semester 2%') OR
-                (Avail_7_Semester_Year LIKE '%Semester 1%' OR Avail_7_Semester_Year LIKE '%Semester 2%')
+                (Avail_1_Semester_Year LIKE '%1 Semester%' OR Avail_1_Semester_Year LIKE '%2 Semester%') OR
+                (Avail_2_Semester_Year LIKE '%1 Semester%' OR Avail_2_Semester_Year LIKE '%2 Semester%') OR
+                (Avail_3_Semester_Year LIKE '%1 Semester%' OR Avail_3_Semester_Year LIKE '%2 Semester%') OR
+                (Avail_4_Semester_Year LIKE '%1 Semester%' OR Avail_4_Semester_Year LIKE '%2 Semester%') OR
+                (Avail_5_Semester_Year LIKE '%1 Semester%' OR Avail_5_Semester_Year LIKE '%2 Semester%') OR
+                (Avail_6_Semester_Year LIKE '%1 Semester%' OR Avail_6_Semester_Year LIKE '%2 Semester%') OR
+                (Avail_7_Semester_Year LIKE '%1 Semester%' OR Avail_7_Semester_Year LIKE '%2 Semester%')
             )
         ;
         """
     cursor.execute(query, (selected_majors[0], selected_majors[1]))
     raw_data = cursor.fetchall()
+
+    # print("raw_data:")
+    # for i in raw_data:
+    #     print(i)
+    # print()
 
     # print(f"Raw Data: {raw_data}")
     
