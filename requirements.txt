@@ -5,5 +5,6 @@ flask_wtf==1.1.1
 pymysql==1.1.0
 python-dotenv
 wtforms==3.0.0
+Jinja2==3.1.2
 reportlab
 gunicorn
