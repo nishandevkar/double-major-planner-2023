@@ -21,11 +21,12 @@
                 <button class="btn btn-sm filter-btn level-btn" onclick="filterUnits('level', 'all')">Show All</button>
             </div>
             <div class="units-container row d-flex flex-wrap" ondragover="allowDrop(event)" ondrop="drop(event)"> 
-                {% for s_idx, (sem, units) in enumerate(non_core_units.items()) %}
-                    {% for u_idx, unit in enumerate(units) %}
+                {% set counter = 0 %}
+                {% for sem, units in non_core_units.items() %}
+                    {% for unit in units %}
                         <div class="col-md-4 mb-3 left-side"> 
                             <div class="unit-card unit-container" 
-                                 id="unit-{{ s_idx }}-{{ u_idx }}" 
+                                 id="unit-{{ counter }}" 
                                  draggable="true" 
                                  ondragstart="dragStart(event)" 
                                  data-unit-name="{{ unit[0] }}" 

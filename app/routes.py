@@ -79,6 +79,8 @@ def init_routes(app):
     
     # Render the template with the organized data
         print(selected_majors)
+        print(type(organized_non_core_units))  # This line will print the type of non_core_units
+        print(organized_non_core_units)
         return render_template(
             'studyPlan.html', 
             units=processed_core_units,  # Corrected the variable name here
