@@ -42,35 +42,13 @@ Friday 20 October 2023 (week 12 of Semester 2 at UWA)
 
 5. Install the required packages from the requirements.txt file with the command-line: `python3 -m pip install -r requirements.txt`
 
-## Database Creation(on your system)
+## Database
 
-1. Install MySQL Server on your system, not within the virtual environment.
-   - On Ubuntu:
-               `sudo apt-get update`
-               `sudo apt-get install mysql-server`
-   - On Mac:
-               `brew install mysql`
-               *If you are receiving the error `zsh: command not found: brew` when trying to run the brew command, refer to ChatGPT.*
-   - On Windows: You can download the installer from the MySQL official website: https://dev.mysql.com/downloads/mysql/.
+1. Download the database from Github or clone the whole Back-end braches. (commerce_database_solution1_updated.sqlite)
 
-2. Start the MySQL service & Configuring MySQL
-   - On Ubuntu: `sudo systemctl start mysql`
-   - On Mac: `sudo service mysql start`
-   - On Windows, MySQL is installed as a service, and you can start it from the service manager. After downloading and running the installer, you can follow the installation wizard's instructions to complete the installation process. The wizard will help you configure the server and create initial user accounts.
+2. If you create your own database using SQLite
 
-3. Configuring MySQL
-   - On Ubuntu/Mac: `sudo mysql_secure_installation`
-   - This script will guide you through setting the root user password, removing anonymous users, disallowing remote root login, and removing the test database.
-
-4. Logging into MySQL
-   - `mysql -u <username> -p`
-   - Enter the password.
-
-5. Creating a Database(flaskdb)
-   `CREATE DATABASE <flaskdb>;`
-
-6. Exiting MySQL
-   `exit`
+3. Replace the path './commerce_database_solution1_updated.sqlite' to your own path to your SQLite database in database.py file
 
 ## Secret Environment Variables
 
